@@ -26,9 +26,9 @@ public class DriveCommand extends CommandBase
      */
     public DriveCommand(DoubleSupplier DemandVelocity, DoubleSupplier DemandRotation, Class<?> Driver, DriveSubsystem Dependent)
     {
-        this.DemandVelocity = (DemandVelocity.getAsDouble() > (Double)Functions.deriveField(Driver,"SPEED_COEFFICENT_SENSITIVIY"))? (DemandVelocity): (() -> 0.0);;
-        this.DemandRotation = (DemandRotation.getAsDouble() > (Math.sqrt(Math.pow((Double)Functions.deriveField(Driver,"SPEED_COEFFICENT_SENSITIVIY"),2) + 
-        Math.pow((Double)Functions.deriveField(Driver,"SPEED_COEFFICENT_SENSITIVIY"),2))))? (DemandVelocity): (() -> 0.0);
+        this.DemandVelocity = (DemandVelocity.getAsDouble() > (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (() -> 0.0);;
+        this.DemandRotation = (DemandRotation.getAsDouble() > (Math.sqrt(Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"),2) + 
+        Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"),2))))? (DemandVelocity): (() -> 0.0);
         this.Dependent = Dependent;
         addRequirements(Dependent);
     }
@@ -40,9 +40,9 @@ public class DriveCommand extends CommandBase
      */
     public DriveCommand(Double DemandVelocity, Double DemandRotation, Class<?> Driver, DriveSubsystem Dependent)
     {
-        this.DemandVelocity = () -> (DemandVelocity > (Double)Functions.deriveField(Driver,"SPEED_COEFFICENT_SENSITIVIY"))? (DemandVelocity): (0.0);
-        this.DemandRotation = () -> (DemandRotation > (Math.sqrt(Math.pow((Double)Functions.deriveField(Driver,"SPEED_COEFFICENT_SENSITIVIY"),2) + 
-        Math.pow((Double)Functions.deriveField(Driver,"SPEED_COEFFICENT_SENSITIVIY"),2))))? (DemandVelocity): (0.0);
+        this.DemandVelocity = () -> (DemandVelocity > (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (0.0);
+        this.DemandRotation = () -> (DemandRotation > (Math.sqrt(Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"),2) + 
+        Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"),2))))? (DemandVelocity): (0.0);
         this.Dependent = Dependent;
         addRequirements(Dependent);
     }
