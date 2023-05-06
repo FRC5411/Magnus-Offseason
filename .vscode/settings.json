@@ -27,11 +27,17 @@
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
   "cSpell.words": [
+    "CTREPCM",
     "DEADZONE",
     "drivebase",
     "drivetain",
+    "INDEXLEFT",
+    "INDEXRIGHT",
     "Magnus",
     "motorcontroller",
-    "PIDS"
+    "PIDS",
+    "SFOU",
+    "STHR",
+    "STWO"
   ]
 }

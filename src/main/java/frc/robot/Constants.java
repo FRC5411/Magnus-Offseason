@@ -50,7 +50,24 @@ public final class Constants
 
     public static final class Intake
     {
+        public static final class MotorPorts
+        {
+            public static final Integer II = 21;
 
+            public static final Integer IL = 51;
+
+            public static final Integer IR = 52;
+        }
+        public static final class SolenoidChannels
+        {
+            public static final Integer[] SONE = {0,7};
+
+            public static final Integer[] STWO = {1,6};
+
+            public static final Integer[] STHR = {2,5};
+
+            public static final Integer[] SFOU = {3,4};
+        }
     }
 
     public static final class Climb
