@@ -20,6 +20,8 @@ public final class Constants
             public static final Double[] DIMENSIONS = {1.0,1.0};
 
             public static final Integer ENCODER_RESOLUTION = 2048;
+
+            public static final Double ENCODER_TICK_TO_METER_FACTOR = (2.0 * Math.PI * (HardwareInformation.WHEEL_DIAMETER/2) / HardwareInformation.ENCODER_RESOLUTION);
         }
 
         public static final class MotorPorts
@@ -37,18 +39,11 @@ public final class Constants
         {
             public static final class PID
             {
-                public static final Double L_KP = 0.1;
+                public static final Double DB_KP = 0.1;
 
-                public static final Double L_KI = 0.1;
+                public static final Double DB_KI = 0.1;
 
-                public static final Double L_KD = 0.1;
-
-                public static final Double R_KP = 0.1;
-
-                public static final Double R_KI = 0.1;
-
-                public static final Double R_KD = 0.1;
-
+                public static final Double DB_KD = 0.1;
             }
         }
     }
@@ -77,7 +72,7 @@ public final class Constants
         {
             public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
             public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double SPEED_COEFFICENT_SENSITIVIY = 1 * Math.pow(10,-2);
+            public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
             public static final String TRIGGER_MODE_SWITCH = "a";
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
@@ -87,7 +82,7 @@ public final class Constants
         {
             public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
             public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double SPEED_COEFFICENT_SENSITIVIY = 1 * Math.pow(10,-2);
+            public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
             public static final String TRIGGER_MODE_SWITCH = "a";
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
@@ -107,5 +102,6 @@ public final class Constants
         public static Object deriveField(Class<?> Class_Any, String FieldName)
         {try{return Class_Any.getClass().getDeclaredField("TRIGGER_MODE_SWITCH").get(Class_Any.getClass().getDeclaredField("TRIGGER_MODE_SWITCH"));}
         catch(NoSuchFieldException | IllegalAccessException exception) {return null;}}
+        public static Double norm(Double a, Double b) {return Math.sqrt(Math.pow(a,2) + Math.pow(b,2));}
     }
 }

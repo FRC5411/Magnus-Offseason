@@ -16,7 +16,7 @@ public class DriveCommand extends CommandBase
     protected final DoubleSupplier DemandVelocity, DemandRotation;
     protected final DriveSubsystem Dependent;
     //-------------------[Properties]------------------//
-    protected Boolean isFinnished = false;
+    protected Boolean isFinished = false;
     //------------------[Constructors]-----------------//
     /**
      * Constructor.
@@ -27,8 +27,8 @@ public class DriveCommand extends CommandBase
     public DriveCommand(DoubleSupplier DemandVelocity, DoubleSupplier DemandRotation, Class<?> Driver, DriveSubsystem Dependent)
     {
         this.DemandVelocity = (DemandVelocity.getAsDouble() > (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (() -> 0.0);;
-        this.DemandRotation = (DemandRotation.getAsDouble() > (Math.sqrt(Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"),2) + 
-        Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"),2))))? (DemandVelocity): (() -> 0.0);
+        this.DemandRotation = ((DemandRotation.getAsDouble() > Functions.norm((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"), 
+        (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE")))? (DemandVelocity): (() -> 0.0));
         this.Dependent = Dependent;
         addRequirements(Dependent);
     }
@@ -41,8 +41,8 @@ public class DriveCommand extends CommandBase
     public DriveCommand(Double DemandVelocity, Double DemandRotation, Class<?> Driver, DriveSubsystem Dependent)
     {
         this.DemandVelocity = () -> (DemandVelocity > (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (0.0);
-        this.DemandRotation = () -> (DemandRotation > (Math.sqrt(Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"),2) + 
-        Math.pow((Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"),2))))? (DemandVelocity): (0.0);
+        this.DemandRotation = () -> (DemandRotation > Functions.norm((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"), 
+        (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (0.0));
         this.Dependent = Dependent;
         addRequirements(Dependent);
     }
@@ -54,12 +54,12 @@ public class DriveCommand extends CommandBase
     @Override
     public void execute()
     {
-        Dependent.arcadeDrive(DemandVelocity, DemandRotation); isFinnished = true;
+        Dependent.arcadeDrive(DemandVelocity, DemandRotation); isFinished = true;
     }
 
     @Override
-    public void end(boolean interrupted) {isFinnished = interrupted;}
+    public void end(boolean interrupted) {isFinished = interrupted;}
 
     @Override
-    public boolean isFinished() {return isFinnished;}
+    public boolean isFinished() {return isFinished;}
 }
