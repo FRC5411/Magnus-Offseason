@@ -100,10 +100,24 @@ public final class Constants
             public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
             public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
-            public static final String TRIGGER_MODE_SWITCH = "a";
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
-            
+            public static final String TRIGGER_INTAKE_IN = "leftBumper";
+            public static final String TRIGGER_INTAKE_OUT = "rightBumper";
+            public static final String TRIGGER_INTAKE_STOP = "x";
+            public static final String TRIGGER_MODE_SWITCH = "y";            
+            public static final String TRIGGER_SHOOTER_PID_ON = "a";
+            public static final String TRIGGER_SHOOTER_PID_OFF = "b";
+
+        }
+        
+        public static final class ButtonBoard
+        {
+            public static final Integer BUTTON_WINCH_OUT = 4;
+            public static final Integer BUTTON_WINCH_IN = 6;
+            public static final Integer BUTTON_ARM_DOWN = 3;
+            public static final Integer BUTTON_ARM_UP = 5;
+            public static final Integer BUTTON_SHOOT = 1;
         }
     }
 
