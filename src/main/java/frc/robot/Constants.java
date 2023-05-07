@@ -2,6 +2,7 @@
 package frc.robot;
 //----------------------[Library]----------------------//
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.lang.NullPointerException;
 import java.lang.SecurityException;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -57,6 +58,8 @@ public final class Constants
             public static final Integer IL = 51;
 
             public static final Integer IR = 52;
+
+            public static final Integer IM = 2;
         }
         public static final class SolenoidChannels
         {
@@ -85,14 +88,22 @@ public final class Constants
      */
     public static final class DriverProfile
     {
+        public static final Class<?> DRIVER_PROFILE = Cody_W.class; // <------- TODO: Change as Needed
+        public static final Integer DRIVER_CONTROLLER_PORT = 0; // <------- TODO: Change as Needed
+
         public static final class Cody_W
         {
             public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
             public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
-            public static final String TRIGGER_MODE_SWITCH = "a";
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
+            public static final String TRIGGER_INTAKE_IN = "leftBumper";
+            public static final String TRIGGER_INTAKE_OUT = "rightBumper";
+            public static final String TRIGGER_INTAKE_STOP = "x";
+            public static final String TRIGGER_MODE_SWITCH = "y";            
+            public static final String TRIGGER_SHOOTER_PID_ON = "a";
+            public static final String TRIGGER_SHOOTER_PID_OFF = "b";
         }
 
         public static final class Alex_P
@@ -108,6 +119,23 @@ public final class Constants
             public static final String TRIGGER_MODE_SWITCH = "y";            
             public static final String TRIGGER_SHOOTER_PID_ON = "a";
             public static final String TRIGGER_SHOOTER_PID_OFF = "b";
+        }
+
+        public static final class Default 
+        {
+            public static final Integer PRIMARY_CONTROLLER_PORT = 0;
+            public static final CommandXboxController PRIMARY_CONTROLLER = new CommandXboxController(PRIMARY_CONTROLLER_PORT);
+            public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
+            public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
+            public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
+            public static final Trigger TRIGGER_INCREMENT = PRIMARY_CONTROLLER.leftTrigger();
+            public static final Trigger TRIGGER_DECREMENT = PRIMARY_CONTROLLER.rightTrigger();
+            public static final Trigger TRIGGER_INTAKE_IN = PRIMARY_CONTROLLER.leftBumper();
+            public static final Trigger TRIGGER_INTAKE_OUT = PRIMARY_CONTROLLER.rightBumper();
+            public static final Trigger TRIGGER_INTAKE_STOP = PRIMARY_CONTROLLER.x();
+            public static final Trigger TRIGGER_MODE_SWITCH = PRIMARY_CONTROLLER.y();
+            public static final Trigger TRIGGER_SHOOTER_PID_ON = PRIMARY_CONTROLLER.a();
+            public static final Trigger TRIGGER_SHOOTER_PID_OFF = PRIMARY_CONTROLLER.b();
 
         }
         
@@ -121,18 +149,37 @@ public final class Constants
         }
     }
 
-    /**
-     * Don't ask how this works, or why I wrote it.
-     * @author Cody Washington
-     */
-    public static final class Functions
-    {
-        public static Trigger deriveButton(Class<? extends CommandXboxController> Controller_Any, String MethodName)
-        {try {return (Trigger)(Controller_Any.getClass().getMethod(MethodName).invoke(Controller_Any));}
-        catch(NullPointerException | SecurityException | NoSuchMethodException | IllegalAccessException | InvocationTargetException exception){return null;}}
-        public static Object deriveField(Class<?> Class_Any, String FieldName)
-        {try{return Class_Any.getClass().getDeclaredField("TRIGGER_MODE_SWITCH").get(Class_Any.getClass().getDeclaredField("TRIGGER_MODE_SWITCH"));}
-        catch(NoSuchFieldException | IllegalAccessException exception) {return null;}}
-        public static Double norm(Double a, Double b) {return Math.sqrt(Math.pow(a,2) + Math.pow(b,2));}
-    }
+        /**
+         * Don't ask how this works, or why I wrote it.
+         * @author Cody Washington
+         */
+        public static final class Functions
+        {
+            /**
+             * retrieves a method from a class and executes it regardless of the method's protection level
+             * @param Class_Any - Class of Method
+             * @param MethodName - Name of Method
+             * @param Arguments_Any - Arguments of Method
+             * @return the result of the Invoked Method
+             */
+            public static Object getMethodAndExecute(Object Class_Any, String MethodName, Object... Arguments_Any)
+            {var ArgumentTypes = Arrays.asList(Arguments_Any).stream().map(Object::getClass).toArray(Class<?>[]::new);
+            if(ArgumentTypes.length > 0) {try{var MethodCapture = Class_Any.getClass().getDeclaredMethod(MethodName, ArgumentTypes); MethodCapture.setAccessible(true);
+            var MethodReturn =  MethodCapture.invoke(Class_Any.getClass(), Arguments_Any); return (MethodReturn == (null)) ? Void.class : MethodReturn;}
+            catch(NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {System.out.println(exception);return null;}}
+            else {try{var MethodCapture = Class_Any.getClass().getDeclaredMethod(MethodName); MethodCapture.setAccessible(true);
+            var MethodReturn = MethodCapture.invoke(Class_Any); return (MethodReturn == (null)) ? Void.class : MethodReturn;}
+            catch(NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {System.out.println(exception);return null;}}}
+            /**
+             * retrieves a method from a class and executes it regardless of the method's protection level
+             * @param Class_Any - Class of Field
+             * @param FieldName - Name of Field
+             * @return the value of the Field
+             */
+            public static Object getFieldValue(Class<? extends Object> Class_Any, String FieldName)
+            {try {return(Class_Any.getDeclaredField(FieldName).get(Class_Any));}
+            catch(NullPointerException | SecurityException | NoSuchFieldException | IllegalAccessException exception) {System.out.println(exception);return null;}}
+            public static Double norm(Double a, Double b) 
+            {return Math.sqrt(Math.pow(a,2) + Math.pow(b,2));}
+        }
 }

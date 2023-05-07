@@ -118,10 +118,10 @@ public class DriveSubsystem extends SubsystemBase
     public void setDrivingMode(Boolean Mode) {this.DB_Mode = Mode;}
     /** Decrement driving speed coefficient */
     public void decrementCoefficient()
-    {DB_Speed_Coefficient -= (Double)Functions.deriveField(DB_Driver,"SPEED_COEFFICIENT_SENSITIVITY");}
+    {DB_Speed_Coefficient -= (Double)Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");}
     /** Increment driving speed coefficient */
     public void incrementCoefficient()
-    {DB_Speed_Coefficient += (Double)Functions.deriveField(DB_Driver,"SPEED_COEFFICIENT_SENSITIVITY");}
+    {DB_Speed_Coefficient += (Double)Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");}
     //-------------------[Subsystem]-------------------//
     @Override
     public void periodic()

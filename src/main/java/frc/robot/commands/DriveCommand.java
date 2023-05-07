@@ -1,9 +1,9 @@
 //----------------------[Package]----------------------//
 package frc.robot.commands;
 //----------------------[Library]----------------------//
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.Functions;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.Constants.Functions;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 //-------------------[Drive Command]-------------------//
 /**
@@ -26,9 +26,9 @@ public class DriveCommand extends CommandBase
      */
     public DriveCommand(DoubleSupplier DemandVelocity, DoubleSupplier DemandRotation, Class<?> Driver, DriveSubsystem Dependent)
     {
-        this.DemandVelocity = (DemandVelocity.getAsDouble() > (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (() -> 0.0);;
-        this.DemandRotation = ((DemandRotation.getAsDouble() > Functions.norm((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"), 
-        (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE")))? (DemandVelocity): (() -> 0.0));
+        this.DemandVelocity = (DemandVelocity.getAsDouble() > (Double)Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (() -> 0.0);
+        this.DemandRotation = ((DemandRotation.getAsDouble() > Math.atan((Double)Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE")/(Double)Functions.getFieldValue(Driver, "JOYSTICK_X_DEADZONE")))?
+         (DemandRotation): (() -> 0.0));
         this.Dependent = Dependent;
         addRequirements(Dependent);
     }
@@ -40,9 +40,9 @@ public class DriveCommand extends CommandBase
      */
     public DriveCommand(Double DemandVelocity, Double DemandRotation, Class<?> Driver, DriveSubsystem Dependent)
     {
-        this.DemandVelocity = () -> (DemandVelocity > (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (0.0);
-        this.DemandRotation = () -> (DemandRotation > Functions.norm((Double)Functions.deriveField(Driver,"JOYSTICK_X_DEADZONE"), 
-        (Double)Functions.deriveField(Driver,"JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (0.0));
+        this.DemandVelocity = () -> (DemandVelocity > (Double)Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE"))? (DemandVelocity): (0.0);
+        this.DemandRotation = () -> ((DemandRotation > Math.atan((Double)Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE")/(Double)Functions.getFieldValue(Driver, "JOYSTICK_X_DEADZONE")))?
+         (DemandRotation): (0.0));
         this.Dependent = Dependent;
         addRequirements(Dependent);
     }
@@ -52,10 +52,7 @@ public class DriveCommand extends CommandBase
     public void initialize() {}
 
     @Override
-    public void execute()
-    {
-        Dependent.arcadeDrive(DemandVelocity, DemandRotation); isFinished = true;
-    }
+    public void execute() {Dependent.arcadeDrive(DemandVelocity, DemandRotation); isFinished = true;}
 
     @Override
     public void end(boolean interrupted) {isFinished = interrupted;}

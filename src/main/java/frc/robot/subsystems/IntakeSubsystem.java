@@ -29,29 +29,30 @@ public class IntakeSubsystem extends SubsystemBase
     {
         I_INTAKE = new WPI_TalonSRX(MotorPorts.II);
         I_INDEXLEFT = new WPI_TalonSRX(MotorPorts.IL); I_INDEXRIGHT = new WPI_TalonSRX(MotorPorts.IR);
-        I_SOLENOID_ONE = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,SolenoidChannels.SONE[0],SolenoidChannels.SONE[1]);
-        I_SOLENOID_TWO = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,SolenoidChannels.STWO[0],SolenoidChannels.STWO[1]);
-        I_SOLENOID_THR = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,SolenoidChannels.STHR[0],SolenoidChannels.STHR[1]);
-        I_SOLENOID_FOU = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,SolenoidChannels.SFOU[0],SolenoidChannels.SFOU[1]);
+        I_SOLENOID_ONE = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.SONE[0],SolenoidChannels.SONE[1]);
+        I_SOLENOID_TWO = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.STWO[0],SolenoidChannels.STWO[1]);
+        I_SOLENOID_THR = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.STHR[0],SolenoidChannels.STHR[1]);
+        I_SOLENOID_FOU = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.SFOU[0],SolenoidChannels.SFOU[1]);
     }
     /**
      * Constructor.
      * @param II - Intake motorcontroller port
      * @param IL - Intake Indexer Left motorcontroller port
      * @param IR - Intake Indexer Right motorcontroller port
+     * @param IM - Intake PCM port
      * @param SONE - Solenoid One's Left and Right channel ports
      * @param STWO- Solenoid Two's Left and Right channel ports
      * @param STHR- Solenoid Three's Left and Right channel ports
      * @param SFOU- Solenoid Four's Left and Right channel ports
      */
-    public IntakeSubsystem(Integer II, Integer IL, Integer IR, Integer[] SONE, Integer[] STWO, Integer[] STHR, Integer[] SFOU)
+    public IntakeSubsystem(Integer II, Integer IL, Integer IR, Integer IM, Integer[] SONE, Integer[] STWO, Integer[] STHR, Integer[] SFOU)
     {
         I_INTAKE = new WPI_TalonSRX(II);
         I_INDEXLEFT = new WPI_TalonSRX(IL); I_INDEXRIGHT = new WPI_TalonSRX(IR);
-        I_SOLENOID_ONE = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,SONE[0],SONE[1]);
-        I_SOLENOID_TWO = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,STWO[0],STWO[1]);
-        I_SOLENOID_THR = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,STHR[0],STHR[1]);
-        I_SOLENOID_FOU = new DoubleSolenoid(2,PneumaticsModuleType.CTREPCM,SFOU[0],SFOU[1]);
+        I_SOLENOID_ONE = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,SONE[0],SONE[1]);
+        I_SOLENOID_TWO = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,STWO[0],STWO[1]);
+        I_SOLENOID_THR = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,STHR[0],STHR[1]);
+        I_SOLENOID_FOU = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,SFOU[0],SFOU[1]);
     }
     //-----------------[Intake Control]----------------//
 
