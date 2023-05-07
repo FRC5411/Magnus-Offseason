@@ -41,6 +41,7 @@ public class RobotContainer
     Trigger_ModeSwitch = (Trigger)Functions.getMethodAndExecute(M_Controller, (String)Functions.getFieldValue(M_Driver, "TRIGGER_MODE_SWITCH"));
     if(Trigger_ModeSwitch == null) {System.out.println("TRIGGER_MODE_SWITCH Unidentified; Set to Default.");Trigger_ModeSwitch = DriverProfile.Default.TRIGGER_MODE_SWITCH;}
     Trigger_Additive = (Trigger)Functions.getMethodAndExecute(M_Controller, (String)Functions.getFieldValue(M_Driver, "TRIGGER_INCREMENT"));
+    if(Trigger_Additive == null) {System.out.println("TRIGGER_INCREMENT Unidentified; Set to Default.");Trigger_Additive = DriverProfile.Default.TRIGGER_INCREMENT;}
     Trigger_Subtractive = (Trigger)Functions.getMethodAndExecute(M_Controller, (String)Functions.getFieldValue(M_Driver, "TRIGGER_DECREMENT"));
     if(Trigger_Subtractive == null) {System.out.println("TRIGGER_DECREMENT Unidentified; Set to Default.");Trigger_Subtractive = DriverProfile.Default.TRIGGER_DECREMENT;}
     Trigger_Intake_In = (Trigger)Functions.getMethodAndExecute(M_Controller, (String)Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE_IN"));
