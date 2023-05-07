@@ -6,9 +6,7 @@ import frc.robot.Constants.Functions;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 //-------------------[Drive Command]-------------------//
-/**
- * Magnus's drivebase command
- */
+/** Magnus's drivebase command */
 public class DriveCommand extends CommandBase
 {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})

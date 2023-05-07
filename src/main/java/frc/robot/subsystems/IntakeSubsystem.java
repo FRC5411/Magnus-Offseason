@@ -11,9 +11,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 //------------------[Intake Subsystem]-----------------//
-/**
- * Magnus' intake subsystem
- */
+/** Magnus' intake subsystem */
 public class IntakeSubsystem extends SubsystemBase
 {
     //-------------------[Constants]-------------------//

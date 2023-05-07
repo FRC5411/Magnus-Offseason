@@ -8,6 +8,7 @@ import java.lang.SecurityException;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 //---------------------[Constants]---------------------//
+/** Constants for Magnus */
 public final class Constants 
 {
     public static final class Drive
@@ -93,9 +94,9 @@ public final class Constants
 
         public static final class Cody_W
         {
-            public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
+            public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10,-2));
+            public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10,-2));
+            public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10,-2));
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
             public static final String TRIGGER_INTAKE_IN = "leftBumper";
@@ -108,9 +109,9 @@ public final class Constants
 
         public static final class Alex_P
         {
-            public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
+            public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10,-2));
+            public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10,-2));
+            public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10,-2));
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
             public static final String TRIGGER_INTAKE_IN = "leftBumper";
@@ -125,9 +126,9 @@ public final class Constants
         {
             public static final Integer PRIMARY_CONTROLLER_PORT = 0;
             public static final CommandXboxController PRIMARY_CONTROLLER = new CommandXboxController(PRIMARY_CONTROLLER_PORT);
-            public static final Double JOYSTICK_X_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double JOYSTICK_Y_DEADZONE = 5 * Math.pow(10,-2);
-            public static final Double SPEED_COEFFICIENT_SENSITIVITY = 1 * Math.pow(10,-2);
+            public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10,-2));
+            public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10,-2));
+            public static final Double SPEED_COEFFICIENT_SENSITIVITY = (5) * (Math.pow(10,-2));
             public static final Trigger TRIGGER_INCREMENT = PRIMARY_CONTROLLER.leftTrigger();
             public static final Trigger TRIGGER_DECREMENT = PRIMARY_CONTROLLER.rightTrigger();
             public static final Trigger TRIGGER_INTAKE_IN = PRIMARY_CONTROLLER.leftBumper();

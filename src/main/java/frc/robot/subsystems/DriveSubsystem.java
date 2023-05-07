@@ -28,9 +28,7 @@ import frc.robot.Constants.Functions;
  * TODO: Obtain drivetain wheel measurements
  * TODO: Obtain drivetrain PIDS * 
  */
-/**
- * Magnus' drivetrain subsystem
- */
+/** Magnus' drivetrain subsystem */
 public class DriveSubsystem extends SubsystemBase 
 {
     //-------------------[Constants]-------------------//

@@ -1,10 +1,10 @@
 //----------------------[Package]----------------------//
-package frc.robot.subsystems;
+package frc.robot.commands;
 //----------------------[Library]----------------------//
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//-----------------[Shooter Subsystem]-----------------//
-/** Magnus' shooter subsystem */
-public class ShooterSubsystem extends SubsystemBase
+//-------------------[Shoot Command]-------------------//
+/** Magnus' shooter command */
+public class ShooterCommand extends SubsystemBase
 {
     //TODO: Armaan Code Here
 }
