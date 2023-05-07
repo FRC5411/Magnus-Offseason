@@ -2,10 +2,11 @@
 package frc.robot.subsystems;
 //----------------------[Library]----------------------//
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -130,6 +131,12 @@ public class DriveSubsystem extends SubsystemBase
         var DB_Heading_Current  = ((DB_Chassis_Speeds.omegaRadiansPerSecond * DB_PERIODIC_TIME.get()) + (DB_Heading.getRadians()));
         DB_Heading = new Rotation2d((DB_Heading_Current > 360)? ((DB_Heading_Current - 360)): (DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS).omegaRadiansPerSecond
          + (DB_Heading.getRadians())));
+        SmartDashboard.putNumber("FRONT LEFT", FRONT_LEFT.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("FRONT RIGHT", FRONT_RIGHT.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("REAR LEFT", REAR_LEFT.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("REAR RIGHT", REAR_RIGHT.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("HEADING EST.", DB_Heading_Current);
+        DB_PERIODIC_TIME.reset();
     }
     @Override
     public void simulationPeriodic() {}
