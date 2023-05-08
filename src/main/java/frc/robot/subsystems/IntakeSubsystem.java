@@ -31,6 +31,7 @@ public class IntakeSubsystem extends SubsystemBase
         I_SOLENOID_TWO = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.STWO[0],SolenoidChannels.STWO[1]);
         I_SOLENOID_THR = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.STHR[0],SolenoidChannels.STHR[1]);
         I_SOLENOID_FOU = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.SFOU[0],SolenoidChannels.SFOU[1]);
+        configureIntake();
     }
     /**
      * Constructor.
@@ -51,6 +52,7 @@ public class IntakeSubsystem extends SubsystemBase
         I_SOLENOID_TWO = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,STWO[0],STWO[1]);
         I_SOLENOID_THR = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,STHR[0],STHR[1]);
         I_SOLENOID_FOU = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,SFOU[0],SFOU[1]);
+        configureIntake();
     }
     //-----------------[Intake Control]----------------//
 

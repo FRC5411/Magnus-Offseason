@@ -15,18 +15,18 @@ import edu.wpi.first.wpilibj.Timer;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import java.util.function.DoubleSupplier;
-import java.util.Objects;
 import frc.robot.Constants.Drive.HardwareInformation;
 import frc.robot.Constants.Drive.MotorPorts;
 import frc.robot.Constants.Drive.Data.PID;
 import frc.robot.Constants.Functions;
+import java.util.function.DoubleSupplier;
+import java.util.Objects;
 //------------------[Drive Subsystem]------------------//
 /*
  * To-do list
  * TODO: Add Simulator support.
  * TODO: Obtain drivetrain measurements
- * TODO: Obtain drivetain wheel measurements
+ * TODO: Obtain drivetrain wheel measurements
  * TODO: Obtain drivetrain PIDS * 
  */
 /** Magnus' drivetrain subsystem */
@@ -40,8 +40,8 @@ public class DriveSubsystem extends SubsystemBase
     private final DifferentialDriveKinematics DB_KINEMATICS; private final DifferentialDriveWheelSpeeds DB_WHEEL_SPEEDS; 
     private final Timer DB_PERIODIC_TIME;
     //-------------------[Properties]------------------//   
-    private Rotation2d DB_Heading; private Boolean DB_Mode; private ChassisSpeeds DB_Chassis_Speeds;
-    private Double DB_Speed_Coefficient; private Class<?> DB_Driver;
+    private Rotation2d DB_Heading; private Boolean DB_Mode;
+    private Double DB_Speed_Coefficient; private final Class<?> DB_Driver;
     //------------------[Constructors]-----------------//
     /**
      * Constructor.
@@ -56,6 +56,7 @@ public class DriveSubsystem extends SubsystemBase
         DB_DRIVEBASE = new DifferentialDrive(DB_LEFT, DB_RIGHT); DB_KINEMATICS = new DifferentialDriveKinematics(HardwareInformation.DIMENSIONS[0]);
         DB_WHEEL_SPEEDS = new DifferentialDriveWheelSpeeds(0.0,0.0); DB_PERIODIC_TIME = new Timer();
         DB_Heading = new Rotation2d(0.0); DB_Mode = false; DB_Speed_Coefficient = 1.0; DB_Driver = Driver;
+        configureDrivebase();
     }
     /**
      * Constructor.
@@ -75,6 +76,7 @@ public class DriveSubsystem extends SubsystemBase
         DB_M_PID = new PIDController(PID.DB_KP,PID.DB_KI,PID.DB_KP); DB_DRIVEBASE = new DifferentialDrive(DB_LEFT, DB_RIGHT); 
         DB_KINEMATICS = new DifferentialDriveKinematics(HardwareInformation.DIMENSIONS[0]); DB_WHEEL_SPEEDS = new DifferentialDriveWheelSpeeds(0.0,0.0);
         DB_PERIODIC_TIME = new Timer(); DB_Heading = new Rotation2d(0.0); DB_Mode = false; DB_Speed_Coefficient = 1.0; DB_Driver = Driver;
+        configureDrivebase();
     }
     //-----------------[Drive Control]-----------------//
     /**
@@ -127,7 +129,7 @@ public class DriveSubsystem extends SubsystemBase
     {
         DB_WHEEL_SPEEDS.leftMetersPerSecond = Math.max(FRONT_LEFT.getSelectedSensorVelocity(),REAR_LEFT.getSelectedSensorVelocity()) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
         DB_WHEEL_SPEEDS.rightMetersPerSecond = Math.max(FRONT_LEFT.getSelectedSensorVelocity(),FRONT_RIGHT.getSelectedSensorVelocity()) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
-        DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
+        ChassisSpeeds DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
         var DB_Heading_Current  = ((DB_Chassis_Speeds.omegaRadiansPerSecond * DB_PERIODIC_TIME.get()) + (DB_Heading.getRadians()));
         DB_Heading = new Rotation2d((DB_Heading_Current > 360)? ((DB_Heading_Current - 360)): (DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS).omegaRadiansPerSecond
          + (DB_Heading.getRadians())));
@@ -141,10 +143,10 @@ public class DriveSubsystem extends SubsystemBase
     @Override
     public void simulationPeriodic() {}
     //-------------------[Accessors]-------------------//
-    /** @return Differential drive left side velocity  */
+    /** @return Differentials drive left side velocity  */
     public Double getLeftVelocity()
     {return DB_WHEEL_SPEEDS.leftMetersPerSecond;}
-    /** @return Differential drive right side velocity  */
+    /** @return Differentials drive right side velocity  */
     public Double getRightVelocity()
     {return DB_WHEEL_SPEEDS.rightMetersPerSecond;}
     //-------------------[Mutators]--------------------// 

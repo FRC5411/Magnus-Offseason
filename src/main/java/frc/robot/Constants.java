@@ -158,28 +158,28 @@ public final class Constants
         {
             /**
              * retrieves a method from a class and executes it regardless of the method's protection level
-             * @param Class_Any - Class of Method
+             * @param Object_Any - Object to invoke on
              * @param MethodName - Name of Method
              * @param Arguments_Any - Arguments of Method
              * @return the result of the Invoked Method
              */
-            public static Object getMethodAndExecute(Object Class_Any, String MethodName, Object... Arguments_Any)
-            {var ArgumentTypes = Arrays.asList(Arguments_Any).stream().map(Object::getClass).toArray(Class<?>[]::new);
-            if(ArgumentTypes.length > 0) {try{var MethodCapture = Class_Any.getClass().getDeclaredMethod(MethodName, ArgumentTypes); MethodCapture.setAccessible(true);
-            var MethodReturn =  MethodCapture.invoke(Class_Any.getClass(), Arguments_Any); return (MethodReturn == (null)) ? Void.class : MethodReturn;}
-            catch(NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {System.out.println(exception);return null;}}
-            else {try{var MethodCapture = Class_Any.getClass().getDeclaredMethod(MethodName); MethodCapture.setAccessible(true);
-            var MethodReturn = MethodCapture.invoke(Class_Any); return (MethodReturn == (null)) ? Void.class : MethodReturn;}
-            catch(NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {System.out.println(exception);return null;}}}
+            public static Object getMethodAndExecute(Object Object_Any, String MethodName, Object... Arguments_Any)
+            {var ArgumentTypes = Arrays.stream(Arguments_Any).map(Object::getClass).toArray(Class<?>[]::new);
+            if(ArgumentTypes.length > 0) {try{var MethodCapture = Object_Any.getClass().getDeclaredMethod(MethodName, ArgumentTypes); MethodCapture.setAccessible(true);
+            var MethodReturn =  MethodCapture.invoke(Object_Any.getClass(), Arguments_Any); return (MethodReturn == (null)) ? Void.class : MethodReturn;}
+            catch(NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {exception.printStackTrace();return null;}}
+            else {try{var MethodCapture = Object_Any.getClass().getDeclaredMethod(MethodName); MethodCapture.setAccessible(true);
+            var MethodReturn = MethodCapture.invoke(Object_Any); return (MethodReturn == (null)) ? Void.class : MethodReturn;}
+            catch(NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {exception.printStackTrace();return null;}}}
             /**
              * retrieves a method from a class and executes it regardless of the method's protection level
              * @param Class_Any - Class of Field
              * @param FieldName - Name of Field
              * @return the value of the Field
              */
-            public static Object getFieldValue(Class<? extends Object> Class_Any, String FieldName)
+            public static Object getFieldValue(Class<?> Class_Any, String FieldName)
             {try {return(Class_Any.getDeclaredField(FieldName).get(Class_Any));}
-            catch(NullPointerException | SecurityException | NoSuchFieldException | IllegalAccessException exception) {System.out.println(exception);return null;}}
+            catch(NullPointerException | SecurityException | NoSuchFieldException | IllegalAccessException exception) {exception.printStackTrace(); return null;}}
             public static Double norm(Double a, Double b) 
             {return Math.sqrt(Math.pow(a,2) + Math.pow(b,2));}
         }
