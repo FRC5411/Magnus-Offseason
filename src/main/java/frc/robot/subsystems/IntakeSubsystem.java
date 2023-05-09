@@ -63,6 +63,7 @@ public class IntakeSubsystem extends SubsystemBase
         I_INTAKE.setNeutralMode(NeutralMode.Brake);
         I_INDEXLEFT.setNeutralMode(NeutralMode.Coast); I_INDEXRIGHT.setNeutralMode(NeutralMode.Coast);
         I_INDEXRIGHT.setInverted(InvertType.InvertMotorOutput);
+        setAllSolenoids(DoubleSolenoid.Value.kOff);
     }
     /**
      * Set all solenoids to a target value

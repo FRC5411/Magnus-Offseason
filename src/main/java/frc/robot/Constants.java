@@ -76,7 +76,16 @@ public final class Constants
 
     public static final class Climb
     {
-        
+        public static final class MotorPorts
+        {
+            public static final Integer LW = 43;
+
+            public static final Integer LA = 41;
+
+            public static final Integer RW = 44;
+
+            public static final Integer RA = 42;
+        }
     }
 
     public static final class Shooter
