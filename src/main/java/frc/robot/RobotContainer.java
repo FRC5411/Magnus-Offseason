@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.Constants.DriverProfile;
@@ -16,6 +17,7 @@ public class RobotContainer
   //----------------[Robot Subsystems]-----------------//
   private final DriveSubsystem M_Drive;
   private final IntakeSubsystem M_Intake;
+  private final ClimbSubsystem M_Climb;
   //-----------------[Robot Controls]-------------------//
   private CommandXboxController M_Controller;
   private Trigger Trigger_ModeSwitch;
@@ -32,11 +34,16 @@ public class RobotContainer
   public RobotContainer() 
   {
     //Defining Subsystems and Commands
-    M_Drive = new DriveSubsystem(M_Driver); M_AutonomousCommand = new DriveCommand(() -> 0.0, () -> 0.5, M_Driver, M_Drive);    
+    M_Drive = new DriveSubsystem(M_Driver); M_AutonomousCommand = new DriveCommand(() -> 0.0, () -> 0.5, M_Driver, M_Drive);   
+    M_Drive.setDefaultCommand(new DriveCommand(() -> M_Controller.getRawAxis(1),
+     () -> Math.atan(M_Controller.getRawAxis(4)/M_Controller.getRawAxis(1)),M_Driver, M_Drive));     
     M_Intake = new IntakeSubsystem(); 
-
-    //Controllers
+    M_Climb = new ClimbSubsystem();
+    
+    //Controller(S)
     M_Controller = new CommandXboxController(M_Controller_Port);
+
+    //Triggers
     if(M_Controller == null) {System.out.println("Controller Unidentified; Set to Default."); M_Controller = DriverProfile.Default.PRIMARY_CONTROLLER;}
     Trigger_ModeSwitch = (Trigger)Functions.getMethodAndExecute(M_Controller, (String)Functions.getFieldValue(M_Driver, "TRIGGER_MODE_SWITCH"));
     if(Trigger_ModeSwitch == null) {System.out.println("TRIGGER_MODE_SWITCH Unidentified; Set to Default.");Trigger_ModeSwitch = DriverProfile.Default.TRIGGER_MODE_SWITCH;}
@@ -48,7 +55,7 @@ public class RobotContainer
     if(Trigger_Intake_In == null) {System.out.println("TRIGGER_INTAKE_IN Unidentified; Set to Default.");Trigger_Intake_In = DriverProfile.Default.TRIGGER_INTAKE_IN;}
     Trigger_Intake_Out = (Trigger)Functions.getMethodAndExecute(M_Controller, (String)Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE_OUT"));
     if(Trigger_Intake_Out == null) {System.out.println("TRIGGER_INTAKE_OUT Unidentified; Set to Default.");Trigger_Intake_Out = DriverProfile.Default.TRIGGER_INTAKE_OUT;}
-    M_Drive.setDefaultCommand(new DriveCommand(() -> M_Controller.getRawAxis(1), () -> Math.atan(M_Controller.getRawAxis(4)/M_Controller.getRawAxis(1)),M_Driver, M_Drive));
+    
     configureButtonBindings();
   }
   /** Configure Controller triggers bindings with Null protection*/

@@ -68,9 +68,6 @@ public final class Constants
 
             public static final Integer[] STWO = {1,6};
 
-            public static final Integer[] STHR = {2,5};
-
-            public static final Integer[] SFOU = {3,4};
         }
     }
 
@@ -90,7 +87,7 @@ public final class Constants
 
     public static final class Shooter
     {
-        
+        //TODO: Armaan Shooter Constants Here
     }
 
     /**
@@ -112,8 +109,7 @@ public final class Constants
             public static final String TRIGGER_INTAKE_OUT = "rightBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_MODE_SWITCH = "y";            
-            public static final String TRIGGER_SHOOTER_PID_ON = "a";
-            public static final String TRIGGER_SHOOTER_PID_OFF = "b";
+            public static final String TRIGGER_FIRE_OBJECT = "a";
         }
 
         public static final class Alex_P
@@ -127,8 +123,7 @@ public final class Constants
             public static final String TRIGGER_INTAKE_OUT = "rightBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_MODE_SWITCH = "y";            
-            public static final String TRIGGER_SHOOTER_PID_ON = "a";
-            public static final String TRIGGER_SHOOTER_PID_OFF = "b";
+            public static final String TRIGGER_FIRE_OBJECT = "a";
         }
 
         public static final class Default 

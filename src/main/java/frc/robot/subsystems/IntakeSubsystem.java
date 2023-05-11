@@ -18,7 +18,6 @@ public class IntakeSubsystem extends SubsystemBase
     private final WPI_TalonSRX I_INTAKE; 
     private final WPI_TalonSRX I_INDEXLEFT; private final WPI_TalonSRX I_INDEXRIGHT;
     private final DoubleSolenoid I_SOLENOID_ONE; private final DoubleSolenoid I_SOLENOID_TWO;
-    private final DoubleSolenoid I_SOLENOID_THR; private final DoubleSolenoid I_SOLENOID_FOU;
     //------------------[Constructors]-----------------//
     /**
      * Constructor.
@@ -29,8 +28,6 @@ public class IntakeSubsystem extends SubsystemBase
         I_INDEXLEFT = new WPI_TalonSRX(MotorPorts.IL); I_INDEXRIGHT = new WPI_TalonSRX(MotorPorts.IR);
         I_SOLENOID_ONE = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.SONE[0],SolenoidChannels.SONE[1]);
         I_SOLENOID_TWO = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.STWO[0],SolenoidChannels.STWO[1]);
-        I_SOLENOID_THR = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.STHR[0],SolenoidChannels.STHR[1]);
-        I_SOLENOID_FOU = new DoubleSolenoid(MotorPorts.IM,PneumaticsModuleType.CTREPCM,SolenoidChannels.SFOU[0],SolenoidChannels.SFOU[1]);
         configureIntake();
     }
     /**
@@ -44,14 +41,12 @@ public class IntakeSubsystem extends SubsystemBase
      * @param STHR- Solenoid Three's Left and Right channel ports
      * @param SFOU- Solenoid Four's Left and Right channel ports
      */
-    public IntakeSubsystem(Integer II, Integer IL, Integer IR, Integer IM, Integer[] SONE, Integer[] STWO, Integer[] STHR, Integer[] SFOU)
+    public IntakeSubsystem(Integer II, Integer IL, Integer IR, Integer IM, Integer[] SONE, Integer[] STWO)
     {
         I_INTAKE = new WPI_TalonSRX(II);
         I_INDEXLEFT = new WPI_TalonSRX(IL); I_INDEXRIGHT = new WPI_TalonSRX(IR);
         I_SOLENOID_ONE = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,SONE[0],SONE[1]);
         I_SOLENOID_TWO = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,STWO[0],STWO[1]);
-        I_SOLENOID_THR = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,STHR[0],STHR[1]);
-        I_SOLENOID_FOU = new DoubleSolenoid(IM,PneumaticsModuleType.CTREPCM,SFOU[0],SFOU[1]);
         configureIntake();
     }
     //-----------------[Intake Control]----------------//
@@ -72,13 +67,12 @@ public class IntakeSubsystem extends SubsystemBase
     public void setAllSolenoids(DoubleSolenoid.Value Demand)
     {
         I_SOLENOID_ONE.set(Demand); I_SOLENOID_TWO.set(Demand);
-        I_SOLENOID_THR.set(Demand); I_SOLENOID_FOU.set(Demand);
     }
 
     /** Set intake to inwards */
     public void setIntakeInwards()
     {
-        if(checkSolenoidStates(DoubleSolenoid.Value.kReverse))
+        if(checkSolenoidStates(DoubleSolenoid.Value.kForward) | checkSolenoidStates(DoubleSolenoid.Value.kOff))
         {I_INTAKE.set(TalonSRXControlMode.PercentOutput, 1.0); 
         I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, 1.0); I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, 1.0);}
     }
@@ -86,7 +80,7 @@ public class IntakeSubsystem extends SubsystemBase
     /** Set intake to outwards */
     public void setIntakeOutwards()
     {
-        if(checkSolenoidStates(DoubleSolenoid.Value.kReverse))
+        if(checkSolenoidStates(DoubleSolenoid.Value.kReverse) | checkSolenoidStates(DoubleSolenoid.Value.kOff))
         {I_INTAKE.set(TalonSRXControlMode.PercentOutput, -1.0);
         I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, -1.0); I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, -1.0);}
     }
@@ -100,7 +94,6 @@ public class IntakeSubsystem extends SubsystemBase
     public void toggleAllSolenoids()
     {
         I_SOLENOID_ONE.toggle(); I_SOLENOID_TWO.toggle();
-        I_SOLENOID_THR.toggle(); I_SOLENOID_FOU.toggle();
         if(checkSolenoidStates(DoubleSolenoid.Value.kOff)) {setAllSolenoids(DoubleSolenoid.Value.kReverse);}
 
     }
@@ -111,8 +104,7 @@ public class IntakeSubsystem extends SubsystemBase
      */
     public Boolean checkSolenoidStates(DoubleSolenoid.Value Target)
     {
-        return (I_SOLENOID_ONE.get().equals(Target) && I_SOLENOID_TWO.get().equals(Target) 
-        && I_SOLENOID_THR.get().equals(Target) && I_SOLENOID_FOU.get().equals(Target));
+        return (I_SOLENOID_ONE.get().equals(Target) && I_SOLENOID_TWO.get().equals(Target));
     }
     @Override
     public void periodic() {}

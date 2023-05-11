@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 //----------------------[Library]----------------------//
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants.Climb.MotorPorts;
 //------------------[Climb Subsystem]------------------//
@@ -25,29 +28,53 @@ public class ClimbSubsystem extends SubsystemBase
     }
     //-----------------[Climb Control]-----------------//
 
+    public void configureDevices()
+    {
+        C_LEFT_ARM.setInverted(InvertType.InvertMotorOutput);
+        C_LEFT_WIN.setInverted(InvertType.InvertMotorOutput);
+    }
+
     public void winchControl(DoubleSupplier Demand)
     {
-        
+        C_LEFT_WIN.set(TalonSRXControlMode.PercentOutput,Demand.getAsDouble());
+        C_RIGHT_WIN.set(TalonSRXControlMode.PercentOutput,Demand.getAsDouble());
     }
     public void winchControl(Double Demand)
     {
-
+        C_LEFT_WIN.set(TalonSRXControlMode.PercentOutput,Demand);
+        C_RIGHT_WIN.set(TalonSRXControlMode.PercentOutput,Demand);
     }
     public void winchStop()
     {
-
+        C_LEFT_WIN.set(TalonSRXControlMode.Velocity,0.0);
+        C_RIGHT_WIN.set(TalonSRXControlMode.Velocity,0.0);
     }
     public void armControl(DoubleSupplier Demand)
     {
-
+        C_LEFT_ARM.set(TalonSRXControlMode.PercentOutput,Demand.getAsDouble());
+        C_RIGHT_ARM.set(TalonSRXControlMode.PercentOutput,Demand.getAsDouble());
     }
     public void armControl(Double Demand)
     {
-
+        C_LEFT_ARM.set(TalonSRXControlMode.PercentOutput,Demand);
+        C_RIGHT_ARM.set(TalonSRXControlMode.PercentOutput,Demand);
     }
 
     public void armStop()
     {
+        C_LEFT_ARM.set(TalonSRXControlMode.Velocity,0.0);
+        C_RIGHT_ARM.set(TalonSRXControlMode.Velocity,0.0);
+    }
 
+    public void ControlLeft(DoubleSupplier DemandWinch, DoubleSupplier DemandArm)
+    {
+        C_LEFT_WIN.set(TalonSRXControlMode.PercentOutput,DemandWinch.getAsDouble());
+        C_LEFT_ARM.set(TalonSRXControlMode.PercentOutput,DemandArm.getAsDouble());
+    }
+
+    public void ControlRight(DoubleSupplier DemandWinch, DoubleSupplier DemandArm)
+    {
+        C_RIGHT_WIN.set(TalonSRXControlMode.PercentOutput,DemandWinch.getAsDouble());
+        C_RIGHT_ARM.set(TalonSRXControlMode.PercentOutput,DemandArm.getAsDouble());
     }
 }
