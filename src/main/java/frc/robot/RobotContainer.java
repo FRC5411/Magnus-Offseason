@@ -143,6 +143,7 @@ public class RobotContainer {
           ((Trigger_Left_Arm_Movement.and(Trigger_Subtractive).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
               : (Climb.Values.C_WIN_OUT)),
           (M_Control_Mode) ? (2) : (0), M_Driver, M_Climb));
+      Trigger_Left_Arm_Movement.onFalse(new ClimbCommand(0.0,0.0,0,M_Driver,M_Climb));
     } catch (NullPointerException exception) {
       Commands
           .print("TRIGGER_L_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
@@ -155,6 +156,7 @@ public class RobotContainer {
           ((Trigger_Right_Arm_Movement.and(Trigger_Subtractive).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
               : (Climb.Values.C_WIN_OUT)),
           (M_Control_Mode) ? (2) : (1), M_Driver, M_Climb));
+      Trigger_Right_Arm_Movement.onFalse(new ClimbCommand(0.0,0.0,1,M_Driver,M_Climb));
     } catch (NullPointerException exception) {
       Commands
           .print("TRIGGER_R_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
