@@ -1,15 +1,17 @@
 //----------------------[Package]----------------------//
 package frc.robot;
+
 //----------------------[Library]----------------------//
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.Climb;
 import frc.robot.Constants.DriverProfile;
+import frc.robot.Constants.Climb;
 import frc.robot.Constants.Functions;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+
 //------------------[Robot Container]------------------//
 public class RobotContainer {
   // ----------------[Robot Subsystems]-----------------//
@@ -26,11 +28,12 @@ public class RobotContainer {
   private Trigger Trigger_Left_Arm_Movement;
   private Trigger Trigger_Right_Arm_Movement;
   private Trigger Trigger_Control_Mode_Switch;
-  private  Boolean M_Control_Mode = false;
+  private Boolean M_Control_Mode = false;
   // ---------------[Robot Miscellaneous]----------------//
   private final DriveCommand M_AutonomousCommand;
   private final Integer M_Controller_Port = DriverProfile.DRIVER_CONTROLLER_PORT;
   private final Class<?> M_Driver = DriverProfile.DRIVER_PROFILE;
+
   // ------------------[Constructors]--------------------//
   /** Constructor */
   public RobotContainer() {
@@ -44,8 +47,6 @@ public class RobotContainer {
     M_AutonomousCommand = new DriveCommand(() -> 0.0, () -> 0.5, M_Driver, M_Drive);
     M_Intake = new IntakeSubsystem();
     M_Climb = new ClimbSubsystem();
-
-
 
     // Triggers
     if (M_Controller == null) {
@@ -84,14 +85,14 @@ public class RobotContainer {
     }
 
     Trigger_Left_Arm_Movement = (Trigger) Functions.getMethodAndExecute(M_Controller,
-      (String) Functions.getFieldValue(M_Driver, "TRIGGER_L_ARM_CONTROL"));
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_L_ARM_CONTROL"));
     if (Trigger_Left_Arm_Movement == null) {
       Commands.print("TRIGGER_L_ARM_CONTROL Unidentified; Set to Default.");
       Trigger_Left_Arm_Movement = DriverProfile.Default.TRIGGER_L_ARM_CONTROL;
     }
 
     Trigger_Right_Arm_Movement = (Trigger) Functions.getMethodAndExecute(M_Controller,
-      (String) Functions.getFieldValue(M_Driver, "TRIGGER_R_ARM_CONTROL"));
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_R_ARM_CONTROL"));
     if (Trigger_Right_Arm_Movement == null) {
       Commands.print("TRIGGER_R_ARM_CONTROL Unidentified; Set to Default.");
       Trigger_Right_Arm_Movement = DriverProfile.Default.TRIGGER_R_ARM_CONTROL;
@@ -110,7 +111,8 @@ public class RobotContainer {
     try {
       Trigger_DB_Mode_Switch.onTrue(Commands.run(M_Drive::toggleDrivingMode, M_Drive));
     } catch (NullPointerException exception) {
-      Commands.print("TRIGGER_MODE_SWITCH default failed; check Constants.DriverProfile.Default, could not find default");
+      Commands
+          .print("TRIGGER_MODE_SWITCH default failed; check Constants.DriverProfile.Default, could not find default");
     }
     try {
       Trigger_Additive.whileTrue(Commands.run(M_Drive::incrementCoefficient, M_Drive));
@@ -130,27 +132,39 @@ public class RobotContainer {
     try {
       Trigger_Intake_Out.onTrue(Commands.run(M_Intake::setIntakeOutwards, M_Intake));
     } catch (NullPointerException exception) {
-      Commands.print("TRIGGER_INTAKE_OUT default failed; check Constants.DriverProfile.Default, could not find default");
+      Commands
+          .print("TRIGGER_INTAKE_OUT default failed; check Constants.DriverProfile.Default, could not find default");
     }
 
     try {
-      Trigger_Left_Arm_Movement.whileTrue(new ClimbCommand((Trigger_Left_Arm_Movement.and(Trigger_Additive).getAsBoolean())? (Climb.Values.C_ARM_UP): (Climb.Values.C_ARM_DOWN),
-      ((Trigger_Left_Arm_Movement.and(Trigger_Subtractive).getAsBoolean())? (Climb.Values.C_WIN_IN): (Climb.Values.C_WIN_OUT)), (M_Control_Mode)? (2): (0), M_Driver, M_Climb));
+      Trigger_Left_Arm_Movement.whileTrue(new ClimbCommand(
+          (Trigger_Left_Arm_Movement.and(Trigger_Additive).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
+              : (Climb.Values.C_ARM_DOWN),
+          ((Trigger_Left_Arm_Movement.and(Trigger_Subtractive).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
+              : (Climb.Values.C_WIN_OUT)),
+          (M_Control_Mode) ? (2) : (0), M_Driver, M_Climb));
     } catch (NullPointerException exception) {
-      Commands.print("TRIGGER_L_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
+      Commands
+          .print("TRIGGER_L_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
     }
 
     try {
-      Trigger_Right_Arm_Movement.whileTrue(new ClimbCommand((Trigger_Right_Arm_Movement.and(Trigger_Additive).getAsBoolean())? (Climb.Values.C_ARM_UP): (Climb.Values.C_ARM_DOWN),
-      ((Trigger_Right_Arm_Movement.and(Trigger_Subtractive).getAsBoolean())? (Climb.Values.C_WIN_IN): (Climb.Values.C_WIN_OUT)), (M_Control_Mode)? (2): (1), M_Driver, M_Climb));
+      Trigger_Right_Arm_Movement.whileTrue(new ClimbCommand(
+          (Trigger_Right_Arm_Movement.and(Trigger_Additive).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
+              : (Climb.Values.C_ARM_DOWN),
+          ((Trigger_Right_Arm_Movement.and(Trigger_Subtractive).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
+              : (Climb.Values.C_WIN_OUT)),
+          (M_Control_Mode) ? (2) : (1), M_Driver, M_Climb));
     } catch (NullPointerException exception) {
-      Commands.print("TRIGGER_R_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
+      Commands
+          .print("TRIGGER_R_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
     }
 
     try {
       Trigger_Control_Mode_Switch.onTrue(Commands.run(this::toggleControlMode));
     } catch (NullPointerException exception) {
-      Commands.print("TRIGGER_MODE_SWITCH default failed; check Constants.DriverProfile.Default, could not find default");
+      Commands
+          .print("TRIGGER_MODE_SWITCH default failed; check Constants.DriverProfile.Default, could not find default");
     }
   }
 

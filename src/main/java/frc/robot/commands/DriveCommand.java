@@ -1,10 +1,12 @@
 //----------------------[Package]----------------------//
 package frc.robot.commands;
+
 //----------------------[Library]----------------------//
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.Functions;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
+
 //-------------------[Drive Command]-------------------//
 /** Magnus's drivebase command */
 public class DriveCommand extends CommandBase {
@@ -14,6 +16,7 @@ public class DriveCommand extends CommandBase {
     protected final DriveSubsystem Dependent;
     // -------------------[Properties]------------------//
     protected Boolean isFinished = false;
+
     // ------------------[Constructors]-----------------//
     /**
      * Constructor.

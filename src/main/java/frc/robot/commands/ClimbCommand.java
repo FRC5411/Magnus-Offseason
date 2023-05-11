@@ -1,10 +1,12 @@
 //----------------------[Package]----------------------//
 package frc.robot.commands;
+
 import java.util.function.DoubleSupplier;
 
 //----------------------[Library]----------------------//
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimbSubsystem;
+
 //-------------------[Climb Command]-------------------//
 /** Magnus's drivebase command */
 public class ClimbCommand extends CommandBase {
@@ -13,16 +15,22 @@ public class ClimbCommand extends CommandBase {
     protected final ClimbSubsystem Dependent;
     // -------------------[Properties]------------------//
     protected Boolean isFinished = false;
+
     // ------------------[Constructors]-----------------//
-    public ClimbCommand(DoubleSupplier DemandArm, DoubleSupplier DemandWinch, Integer DependentSides, Class<?> Driver, ClimbSubsystem Dependent) {
+    public ClimbCommand(DoubleSupplier DemandArm, DoubleSupplier DemandWinch, Integer DependentSides, Class<?> Driver,
+            ClimbSubsystem Dependent) {
         this.Dependent = Dependent;
     }
-    public ClimbCommand(Double DemandArm, Double DemandWinch, Integer DependentSides, Class<?> Driver, ClimbSubsystem Dependent) {
+
+    public ClimbCommand(Double DemandArm, Double DemandWinch, Integer DependentSides, Class<?> Driver,
+            ClimbSubsystem Dependent) {
         this.Dependent = Dependent;
     }
+
     public ClimbCommand(Integer DependentSides, Class<?> Driver, ClimbSubsystem Dependent) {
         this.Dependent = Dependent;
     }
+
     // ---------------------[Command]-------------------//
     @Override
     public void initialize() {
@@ -30,7 +38,7 @@ public class ClimbCommand extends CommandBase {
 
     @Override
     public void execute() {
-        //TODO: Implement Tommorow
+        // TODO: Implement Tommorow
         isFinished = true;
     }
 

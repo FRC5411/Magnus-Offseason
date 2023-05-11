@@ -1,5 +1,6 @@
 //----------------------[Package]----------------------//
 package frc.robot.subsystems;
+
 //----------------------[Library]----------------------//
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -7,12 +8,15 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants.Climb.MotorPorts;
 import java.util.function.DoubleSupplier;
+
 //------------------[Climb Subsystem]------------------//
 /** Magnus' climb subsystem */
 public class ClimbSubsystem extends SubsystemBase {
     // -------------------[Constants]-------------------//
-    private final WPI_TalonSRX C_LEFT_ARM; private final WPI_TalonSRX C_RIGHT_ARM;
-    private final WPI_TalonSRX C_LEFT_WIN; private final WPI_TalonSRX C_RIGHT_WIN;
+    private final WPI_TalonSRX C_LEFT_ARM;
+    private final WPI_TalonSRX C_RIGHT_ARM;
+    private final WPI_TalonSRX C_LEFT_WIN;
+    private final WPI_TalonSRX C_RIGHT_WIN;
 
     // ------------------[Constructors]-----------------//
     /** Constructor */

@@ -87,31 +87,44 @@ public final class Constants {
         }
     }
 
-    public static final class Shooter 
-    {
+    public static final class Shooter {
         // TODO: Armaan Shooter Constants Here
     }
 
-    
     public static final class DriverProfile {
         public static final Class<?> DRIVER_PROFILE = (Cody_W.class); // TODO: Change as Needed
         public static final Integer DRIVER_CONTROLLER_PORT = (0); // TODO: Change as Needed
 
-      /*public static final class ExampleProfile{
-            public static final Double JOYSTICK_X_DEADZONE = (X) * (Math.pow(10, -2)); <- selected Right joystick X deadzone
-            public static final Double JOYSTICK_Y_DEADZONE = (X) * (Math.pow(10, -2)); <- selected Left joystick Y deadzone
-            public static final Double SPEED_COEFFICIENT_SENSITIVITY = (X) * (Math.pow(10, -2)); <- Amount per tick to reduce speed by
-            public static final String TRIGGER_INCREMENT = "X"; <- button to increase speed coefficent 
-            public static final String TRIGGER_DECREMENT = "X"; <- button to decrease speed coefficent
-            public static final String TRIGGER_INTAKE_IN = "X"; <- button to Put intake in
-            public static final String TRIGGER_INTAKE_OUT = "X"; <- button to Put intake out
-            public static final String TRIGGER_INTAKE_STOP = "X"; <- button to Stop intake motors
-            public static final String TRIGGER_FIRE_OBJECT = "X"; <- button to Shooter fire stored object
-            public static final String TRIGGER_MODE_SWITCH = "X"; <- button to Switch from pep-rally to normal shoot or vice-versa
-            public static final String TRIGGER_DB_MODE = "X"; <- button to Switch from 'sniper-mode' to 'regular' driving
-            public static final String TRIGGER_L_ARM_CONTROL = "X"; <- button to Direct left arm control
-            public static final String TRIGGER_R_ARM_CONTROL = "X"; <- button to Drict right arm control
-        }*/
+        /*
+         * public static final class ExampleProfile{
+         * public static final Double JOYSTICK_X_DEADZONE = (X) * (Math.pow(10, -2)); <-
+         * selected Right joystick X deadzone
+         * public static final Double JOYSTICK_Y_DEADZONE = (X) * (Math.pow(10, -2)); <-
+         * selected Left joystick Y deadzone
+         * public static final Double SPEED_COEFFICIENT_SENSITIVITY = (X) *
+         * (Math.pow(10, -2)); <- Amount per tick to reduce speed by
+         * public static final String TRIGGER_INCREMENT = "X"; <- button to increase
+         * speed coefficent
+         * public static final String TRIGGER_DECREMENT = "X"; <- button to decrease
+         * speed coefficent
+         * public static final String TRIGGER_INTAKE_IN = "X"; <- button to Put intake
+         * in
+         * public static final String TRIGGER_INTAKE_OUT = "X"; <- button to Put intake
+         * out
+         * public static final String TRIGGER_INTAKE_STOP = "X"; <- button to Stop
+         * intake motors
+         * public static final String TRIGGER_FIRE_OBJECT = "X"; <- button to Shooter
+         * fire stored object
+         * public static final String TRIGGER_MODE_SWITCH = "X"; <- button to Switch
+         * from pep-rally to normal shoot or vice-versa
+         * public static final String TRIGGER_DB_MODE = "X"; <- button to Switch from
+         * 'sniper-mode' to 'regular' driving
+         * public static final String TRIGGER_L_ARM_CONTROL = "X"; <- button to Direct
+         * left arm control
+         * public static final String TRIGGER_R_ARM_CONTROL = "X"; <- button to Drict
+         * right arm control
+         * }
+         */
 
         public static final class Cody_W {
             public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10, -2));
@@ -123,8 +136,8 @@ public final class Constants {
             public static final String TRIGGER_INTAKE_OUT = "rightBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
-            public static final String TRIGGER_MODE_SWITCH = "b";       
-            public static final String TRIGGER_DB_MODE = "y";                 
+            public static final String TRIGGER_MODE_SWITCH = "b";
+            public static final String TRIGGER_DB_MODE = "y";
             public static final String TRIGGER_L_ARM_CONTROL = "povLeft";
             public static final String TRIGGER_R_ARM_CONTROL = "povRight";
         }
@@ -139,8 +152,8 @@ public final class Constants {
             public static final String TRIGGER_INTAKE_OUT = "rightBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
-            public static final String TRIGGER_MODE_SWITCH = "b";       
-            public static final String TRIGGER_DB_MODE = "y";                 
+            public static final String TRIGGER_MODE_SWITCH = "b";
+            public static final String TRIGGER_DB_MODE = "y";
             public static final String TRIGGER_L_ARM_CONTROL = "povLeft";
             public static final String TRIGGER_R_ARM_CONTROL = "povRight";
         }
@@ -158,8 +171,8 @@ public final class Constants {
             public static final Trigger TRIGGER_INTAKE_OUT = PRIMARY_CONTROLLER.rightBumper();
             public static final Trigger TRIGGER_INTAKE_STOP = PRIMARY_CONTROLLER.x();
             public static final Trigger TRIGGER_FIRE_OBJECT = PRIMARY_CONTROLLER.a();
-            public static final Trigger TRIGGER_MODE_SWITCH = PRIMARY_CONTROLLER.b();        
-            public static final Trigger TRIGGER_DB_MODE = PRIMARY_CONTROLLER.y();               
+            public static final Trigger TRIGGER_MODE_SWITCH = PRIMARY_CONTROLLER.b();
+            public static final Trigger TRIGGER_DB_MODE = PRIMARY_CONTROLLER.y();
             public static final Trigger TRIGGER_L_ARM_CONTROL = PRIMARY_CONTROLLER.povLeft();
             public static final Trigger TRIGGER_R_ARM_CONTROL = PRIMARY_CONTROLLER.povRight();
         }
