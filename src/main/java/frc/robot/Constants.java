@@ -96,7 +96,7 @@ public final class Constants {
         public static final Integer DRIVER_CONTROLLER_PORT = (0); // TODO: Change as Needed
 
         /*
-         * public static final class ExampleProfile{
+         * public static final class ExampleProfile {
          * public static final Double JOYSTICK_X_DEADZONE = (X) * (Math.pow(10, -2)); <-
          * selected Right joystick X deadzone
          * public static final Double JOYSTICK_Y_DEADZONE = (X) * (Math.pow(10, -2)); <-

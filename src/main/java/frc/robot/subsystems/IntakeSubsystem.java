@@ -40,14 +40,12 @@ public class IntakeSubsystem extends SubsystemBase {
     /**
      * Constructor.
      * 
-     * @param II    - Intake motorcontroller port
-     * @param IL    - Intake Indexer Left motorcontroller port
-     * @param IR    - Intake Indexer Right motorcontroller port
-     * @param IM    - Intake PCM port
-     * @param SONE  - Solenoid One's Left and Right channel ports
-     * @param STWO- Solenoid Two's Left and Right channel ports
-     * @param STHR- Solenoid Three's Left and Right channel ports
-     * @param SFOU- Solenoid Four's Left and Right channel ports
+     * @param II   - Intake motorcontroller port
+     * @param IL   - Intake Indexer Left motorcontroller port
+     * @param IR   - Intake Indexer Right motorcontroller port
+     * @param IM   - Intake PCM port
+     * @param SONE - Solenoid One's Left and Right channel ports
+     * @param STWO - Solenoid Two's Left and Right channel ports
      */
     public IntakeSubsystem(Integer II, Integer IL, Integer IR, Integer IM, Integer[] SONE, Integer[] STWO) {
         I_INTAKE = new WPI_TalonSRX(II);
