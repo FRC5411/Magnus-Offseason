@@ -8,34 +8,69 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Constants.Intake.MotorPorts;
 //----------------------[Robot]----------------------//
-public class Robot extends TimedRobot 
-{
-  
+public class Robot extends TimedRobot {
+
   private Command M_AutonomousCommand;
   private Compressor M_Compressor;
   private RobotContainer M_RobotContainer;
+
   @Override
-  public void robotInit() {M_RobotContainer = new RobotContainer(); M_Compressor = new Compressor(MotorPorts.IM, PneumaticsModuleType.CTREPCM); M_Compressor.enableDigital();}
+  public void robotInit() {
+    M_RobotContainer = new RobotContainer();
+    M_Compressor = new Compressor(MotorPorts.IM, PneumaticsModuleType.CTREPCM);
+    M_Compressor.enableDigital();
+  }
+
   @Override
-  public void robotPeriodic() {CommandScheduler.getInstance().run();}
+  public void robotPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
+
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
+
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
+
   @Override
-  public void autonomousInit() {M_AutonomousCommand = M_RobotContainer.getAutonomousCommand(); if (M_AutonomousCommand != null) {M_AutonomousCommand.schedule();}}
+  public void autonomousInit() {
+    M_AutonomousCommand = M_RobotContainer.getAutonomousCommand();
+    if (M_AutonomousCommand != null) {
+      M_AutonomousCommand.schedule();
+    }
+  }
+
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
+
   @Override
-  public void teleopInit() {if (M_AutonomousCommand != null) {M_AutonomousCommand.cancel();}}
+  public void teleopInit() {
+    if (M_AutonomousCommand != null) {
+      M_AutonomousCommand.cancel();
+    }
+  }
+
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
+
   @Override
-  public void testInit() {CommandScheduler.getInstance().cancelAll();}
+  public void testInit() {
+    CommandScheduler.getInstance().cancelAll();
+  }
+
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
+
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+  }
+
   @Override
-  public void simulationPeriodic() {}
+  public void simulationPeriodic() {
+  }
 }
