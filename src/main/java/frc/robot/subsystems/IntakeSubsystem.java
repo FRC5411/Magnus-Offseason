@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 //------------------[Intake Subsystem]-----------------//
@@ -19,6 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
     private final WPI_TalonSRX I_INTAKE;
     private final WPI_TalonSRX I_INDEXLEFT;
     private final WPI_TalonSRX I_INDEXRIGHT;
+    private final Compressor I_COMPRESSOR;
     private final DoubleSolenoid I_SOLENOID_ONE;
     private final DoubleSolenoid I_SOLENOID_TWO;
 
@@ -30,9 +32,11 @@ public class IntakeSubsystem extends SubsystemBase {
         I_INTAKE = new WPI_TalonSRX(MotorPorts.II);
         I_INDEXLEFT = new WPI_TalonSRX(MotorPorts.IL);
         I_INDEXRIGHT = new WPI_TalonSRX(MotorPorts.IR);
-        I_SOLENOID_ONE = new DoubleSolenoid(MotorPorts.IM, PneumaticsModuleType.CTREPCM, SolenoidChannels.SONE[0],
+        I_COMPRESSOR = new Compressor(MotorPorts.IM, PneumaticsModuleType.CTREPCM);
+        I_COMPRESSOR.enableDigital();
+        I_SOLENOID_ONE = new DoubleSolenoid(MotorPorts.SM, PneumaticsModuleType.CTREPCM, SolenoidChannels.SONE[0],
                 SolenoidChannels.SONE[1]);
-        I_SOLENOID_TWO = new DoubleSolenoid(MotorPorts.IM, PneumaticsModuleType.CTREPCM, SolenoidChannels.STWO[0],
+        I_SOLENOID_TWO = new DoubleSolenoid(MotorPorts.SM, PneumaticsModuleType.CTREPCM, SolenoidChannels.STWO[0],
                 SolenoidChannels.STWO[1]);
         configureIntake();
     }
@@ -51,6 +55,8 @@ public class IntakeSubsystem extends SubsystemBase {
         I_INTAKE = new WPI_TalonSRX(II);
         I_INDEXLEFT = new WPI_TalonSRX(IL);
         I_INDEXRIGHT = new WPI_TalonSRX(IR);
+        I_COMPRESSOR = new Compressor(IM, PneumaticsModuleType.CTREPCM);
+        I_COMPRESSOR.enableDigital();
         I_SOLENOID_ONE = new DoubleSolenoid(IM, PneumaticsModuleType.CTREPCM, SONE[0], SONE[1]);
         I_SOLENOID_TWO = new DoubleSolenoid(IM, PneumaticsModuleType.CTREPCM, STWO[0], STWO[1]);
         configureIntake();
@@ -101,6 +107,7 @@ public class IntakeSubsystem extends SubsystemBase {
         I_INTAKE.set(TalonSRXControlMode.PercentOutput, 0);
         I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, 0);
         I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, 0);
+        toggleAllSolenoids();
     }
 
     /** Toggle all solenoids and if any solenoid off, set to reverse value */

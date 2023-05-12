@@ -56,10 +56,12 @@ public final class Constants {
             public static final Integer IR = 52;
 
             public static final Integer IM = 2;
+
+            public static final Integer SM = 0;
         }
 
         public static final class SolenoidChannels {
-            public static final Integer[] SONE = { 0, 7 };
+            public static final Integer[] SONE = { 2, 7 };
 
             public static final Integer[] STWO = { 1, 6 };
         }
@@ -132,8 +134,7 @@ public final class Constants {
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
-            public static final String TRIGGER_INTAKE_IN = "leftBumper";
-            public static final String TRIGGER_INTAKE_OUT = "rightBumper";
+            public static final String TRIGGER_INTAKE_OUT = "leftBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
             public static final String TRIGGER_MODE_SWITCH = "b";
@@ -148,8 +149,7 @@ public final class Constants {
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
-            public static final String TRIGGER_INTAKE_IN = "leftBumper";
-            public static final String TRIGGER_INTAKE_OUT = "rightBumper";
+            public static final String TRIGGER_INTAKE = "leftBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
             public static final String TRIGGER_MODE_SWITCH = "b";
@@ -167,8 +167,7 @@ public final class Constants {
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (5) * (Math.pow(10, -2));
             public static final Trigger TRIGGER_INCREMENT = PRIMARY_CONTROLLER.leftTrigger();
             public static final Trigger TRIGGER_DECREMENT = PRIMARY_CONTROLLER.rightTrigger();
-            public static final Trigger TRIGGER_INTAKE_IN = PRIMARY_CONTROLLER.leftBumper();
-            public static final Trigger TRIGGER_INTAKE_OUT = PRIMARY_CONTROLLER.rightBumper();
+            public static final Trigger TRIGGER_INTAKE = PRIMARY_CONTROLLER.rightBumper();
             public static final Trigger TRIGGER_INTAKE_STOP = PRIMARY_CONTROLLER.x();
             public static final Trigger TRIGGER_FIRE_OBJECT = PRIMARY_CONTROLLER.a();
             public static final Trigger TRIGGER_MODE_SWITCH = PRIMARY_CONTROLLER.b();

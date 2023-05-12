@@ -7,11 +7,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -19,6 +18,7 @@ import frc.robot.Constants.Drive.HardwareInformation;
 import frc.robot.Constants.Drive.MotorPorts;
 import frc.robot.Constants.Functions;
 import java.util.function.DoubleSupplier;
+import java.lang.ClassCastException;
 import java.util.Objects;
 
 //------------------[Drive Subsystem]------------------//
@@ -125,7 +125,8 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Rotation - Rotation Target
      */
     public void arcadeDrive(DoubleSupplier Velocity, DoubleSupplier Rotation) {
-        arcadeDrive(Velocity.getAsDouble(), Rotation.getAsDouble());
+        arcadeDrive((DB_Mode) ? (-Velocity.getAsDouble() * 0.20) : (-Velocity.getAsDouble() * DB_Speed_Coefficient),
+                (DB_Mode) ? (-Rotation.getAsDouble() * 0.20) : (-Rotation.getAsDouble()));
     }
 
     /**
@@ -134,7 +135,10 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Demand - Pose2d Target with both a target Velocity and Rotation
      */
     public void arcadeDrive(Pose2d Demand) {
-        arcadeDrive(Functions.norm(Demand.getX(), Demand.getY()), Demand.getRotation().getDegrees());
+        var Velocity = Functions.norm(Demand.getX(), Demand.getY());
+        var Rotation = Demand.getRotation().getDegrees();
+        arcadeDrive((DB_Mode) ? (-Velocity * 0.20) : (-Velocity * DB_Speed_Coefficient),
+                (DB_Mode) ? (-Rotation * 0.20) : (-Rotation));
     }
 
     /** Configure Magnus' drivebase devices */
@@ -171,22 +175,29 @@ public class DriveSubsystem extends SubsystemBase {
 
     /** Decrement driving speed coefficient */
     public void decrementCoefficient() {
-        DB_Speed_Coefficient -= (Double) Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");
+        try{
+            DB_Speed_Coefficient -= (Double) Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");
+        }
+        catch(ClassCastException exception) {exception.printStackTrace(); return;}
     }
 
     /** Increment driving speed coefficient */
-    public void incrementCoefficient() {
-        DB_Speed_Coefficient += (Double) Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");
+    public void incrementCoefficient() 
+    {
+        try {
+            DB_Speed_Coefficient += (Double) Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");
+        }
+        catch(ClassCastException exception) {exception.printStackTrace(); return;}
     }
 
     // -------------------[Subsystem]-------------------//
     @Override
     public void periodic() {
-        DB_WHEEL_SPEEDS.leftMetersPerSecond = Math.max(FRONT_LEFT.getSelectedSensorVelocity(),
-                REAR_LEFT.getSelectedSensorVelocity()) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
-        DB_WHEEL_SPEEDS.rightMetersPerSecond = Math.max(FRONT_LEFT.getSelectedSensorVelocity(),
-                FRONT_RIGHT.getSelectedSensorVelocity()) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
-        ChassisSpeeds DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
+        DB_WHEEL_SPEEDS.leftMetersPerSecond = ((FRONT_LEFT.getSelectedSensorVelocity() +
+                REAR_LEFT.getSelectedSensorVelocity())/2.0) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
+        DB_WHEEL_SPEEDS.rightMetersPerSecond = ((FRONT_LEFT.getSelectedSensorVelocity() +
+        REAR_LEFT.getSelectedSensorVelocity())/2.0) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
+        var DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
         var DB_Heading_Current = ((DB_Chassis_Speeds.omegaRadiansPerSecond * DB_PERIODIC_TIME.get())
                 + (DB_Heading.getRadians()));
         DB_Heading = new Rotation2d((DB_Heading_Current > 360) ? ((DB_Heading_Current - 360))
@@ -214,5 +225,15 @@ public class DriveSubsystem extends SubsystemBase {
     public Double getRightVelocity() {
         return DB_WHEEL_SPEEDS.rightMetersPerSecond;
     }
+
+    /** @return Rate of angular velocity */
+    public Double getTurnRate()
+    {
+        var DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
+        return ((DB_Chassis_Speeds.omegaRadiansPerSecond * DB_PERIODIC_TIME.get())
+        + (DB_Heading.getRadians()));
+    }
     // -------------------[Mutators]--------------------//
+
+    
 }

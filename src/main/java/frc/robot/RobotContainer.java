@@ -23,8 +23,7 @@ public class RobotContainer {
   private Trigger Trigger_DB_Mode_Switch;
   private Trigger Trigger_Additive;
   private Trigger Trigger_Subtractive;
-  private Trigger Trigger_Intake_In;
-  private Trigger Trigger_Intake_Out;
+  private Trigger Trigger_Intake;
   private Trigger Trigger_Left_Arm_Movement;
   private Trigger Trigger_Right_Arm_Movement;
   private Trigger Trigger_Control_Mode_Switch;
@@ -71,17 +70,11 @@ public class RobotContainer {
       Commands.print("TRIGGER_DECREMENT Unidentified; Set to Default.");
       Trigger_Subtractive = DriverProfile.Default.TRIGGER_DECREMENT;
     }
-    Trigger_Intake_In = (Trigger) Functions.getMethodAndExecute(M_Controller,
-        (String) Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE_IN"));
-    if (Trigger_Intake_In == null) {
-      Commands.print("TRIGGER_INTAKE_IN Unidentified; Set to Default.");
-      Trigger_Intake_In = DriverProfile.Default.TRIGGER_INTAKE_IN;
-    }
-    Trigger_Intake_Out = (Trigger) Functions.getMethodAndExecute(M_Controller,
-        (String) Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE_OUT"));
-    if (Trigger_Intake_Out == null) {
-      Commands.print("TRIGGER_INTAKE_OUT Unidentified; Set to Default.");
-      Trigger_Intake_Out = DriverProfile.Default.TRIGGER_INTAKE_OUT;
+    Trigger_Intake = (Trigger) Functions.getMethodAndExecute(M_Controller,
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE"));
+    if (Trigger_Intake == null) {
+      Commands.print("TRIGGER_INTAKE Unidentified; Set to Default.");
+      Trigger_Intake = DriverProfile.Default.TRIGGER_INTAKE;
     }
 
     Trigger_Left_Arm_Movement = (Trigger) Functions.getMethodAndExecute(M_Controller,
@@ -125,17 +118,12 @@ public class RobotContainer {
       Commands.print("TRIGGER_DECREMENT default failed; check Constants.DriverProfile.Default, could not find default");
     }
     try {
-      Trigger_Intake_In.onTrue(Commands.run(M_Intake::setIntakeInwards, M_Intake));
-    } catch (NullPointerException exception) {
-      Commands.print("TRIGGER_INTAKE_IN default failed; check Constants.DriverProfile.Default, could not find default");
-    }
-    try {
-      Trigger_Intake_Out.onTrue(Commands.run(M_Intake::setIntakeOutwards, M_Intake));
+      Trigger_Intake.onTrue(Commands.run(M_Intake::setIntakeOutwards, M_Intake));
+      Trigger_Intake.onFalse(Commands.run(M_Intake::setIntakeInwards,M_Intake));
     } catch (NullPointerException exception) {
       Commands
-          .print("TRIGGER_INTAKE_OUT default failed; check Constants.DriverProfile.Default, could not find default");
+          .print("TRIGGER_INTAKE default failed; check Constants.DriverProfile.Default, could not find default");
     }
-
     try {
       Trigger_Left_Arm_Movement.whileTrue(new ClimbCommand(
           (Trigger_Left_Arm_Movement.and(Trigger_Additive).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
