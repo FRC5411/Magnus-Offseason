@@ -101,7 +101,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Velocity - Velocity Target
      * @param Rotation - Rotation Target
      */
-    public void arcadeDrive(Double Velocity, Double Rotation) 
+    public void arcadeDrive(Double Velocity, Double Rotation)
     {
         DB_DRIVEBASE.arcadeDrive((DB_Mode) ? (-Velocity * 0.20) : (-Velocity * DB_Speed_Coefficient),
                 (DB_Mode) ? (-Rotation * 0.20) : (-Rotation));
@@ -145,10 +145,10 @@ public class DriveSubsystem extends SubsystemBase {
         FRONT_RIGHT.setNeutralMode(NeutralMode.Brake);
         REAR_LEFT.setNeutralMode(NeutralMode.Brake);
         REAR_LEFT.setNeutralMode(NeutralMode.Brake);
-        FRONT_LEFT.setInverted(TalonFXInvertType.Clockwise);
-        FRONT_RIGHT.setInverted(TalonFXInvertType.CounterClockwise);
-        REAR_LEFT.setInverted(TalonFXInvertType.Clockwise);
-        REAR_RIGHT.setInverted(TalonFXInvertType.CounterClockwise);
+        FRONT_LEFT.setInverted(TalonFXInvertType.CounterClockwise);
+        FRONT_RIGHT.setInverted(TalonFXInvertType.Clockwise);
+        REAR_LEFT.setInverted(TalonFXInvertType.CounterClockwise);
+        REAR_RIGHT.setInverted(TalonFXInvertType.Clockwise);
     }
 
     /** Toggle the current driving mode */

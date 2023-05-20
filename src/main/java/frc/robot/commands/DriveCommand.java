@@ -28,9 +28,9 @@ public class DriveCommand extends CommandBase {
     public DriveCommand(DoubleSupplier DemandVelocity, DoubleSupplier DemandRotation, Class<?> Driver,
             DriveSubsystem Dependent) {
         this.DemandVelocity = (DemandVelocity
-                .getAsDouble() > (Double) Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE")) ? (DemandVelocity)
+                .getAsDouble() < (Double) Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE")) ? (DemandVelocity)
                         : (() -> 0.0);
-        this.DemandRotation = ((DemandRotation.getAsDouble() > Math
+        this.DemandRotation = ((DemandRotation.getAsDouble() < Math
                 .atan((Double) Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE")
                         / (Double) Functions.getFieldValue(Driver, "JOYSTICK_X_DEADZONE"))) ? (DemandRotation)
                                 : (() -> 0.0));
@@ -46,10 +46,10 @@ public class DriveCommand extends CommandBase {
      * @param Dependent      - Subsystem to drive
      */
     public DriveCommand(Double DemandVelocity, Double DemandRotation, Class<?> Driver, DriveSubsystem Dependent) {
-        this.DemandVelocity = () -> (DemandVelocity > (Double) Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE"))
+        this.DemandVelocity = () -> (DemandVelocity < (Double) Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE"))
                 ? (DemandVelocity)
                 : (0.0);
-        this.DemandRotation = () -> ((DemandRotation > Math
+        this.DemandRotation = () -> ((DemandRotation < Math
                 .atan((Double) Functions.getFieldValue(Driver, "JOYSTICK_Y_DEADZONE")
                         / (Double) Functions.getFieldValue(Driver, "JOYSTICK_X_DEADZONE"))) ? (DemandRotation) : (0.0));
         this.Dependent = Dependent;
