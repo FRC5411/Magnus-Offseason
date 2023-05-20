@@ -134,7 +134,7 @@ public final class Constants {
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
             public static final String TRIGGER_INCREMENT = "leftTrigger";
             public static final String TRIGGER_DECREMENT = "rightTrigger";
-            public static final String TRIGGER_INTAKE_OUT = "leftBumper";
+            public static final String TRIGGER_INTAKE = "leftBumper";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
             public static final String TRIGGER_MODE_SWITCH = "b";

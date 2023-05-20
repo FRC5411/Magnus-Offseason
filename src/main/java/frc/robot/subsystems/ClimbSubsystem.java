@@ -75,8 +75,8 @@ public class ClimbSubsystem extends SubsystemBase {
      * @param Demand - Target position of winches
      */
     public void winchPositionControl(DoubleSupplier Demand) {
-        C_LEFT_WIN.set(TalonSRXControlMode.Position, Demand.getAsDouble());
-        C_RIGHT_WIN.set(TalonSRXControlMode.Position, Demand.getAsDouble());
+        C_LEFT_WIN.set(TalonSRXControlMode.PercentOutput, Demand.getAsDouble());
+        C_RIGHT_WIN.set(TalonSRXControlMode.PercentOutput, Demand.getAsDouble());
     }
 
     /**
@@ -85,8 +85,8 @@ public class ClimbSubsystem extends SubsystemBase {
      * @param Demand - Target position of winches
      */
     public void winchPositionControl(Double Demand) {
-        C_LEFT_WIN.set(TalonSRXControlMode.Position, Demand);
-        C_RIGHT_WIN.set(TalonSRXControlMode.Position, Demand);
+        C_LEFT_WIN.set(TalonSRXControlMode.PercentOutput, Demand);
+        C_RIGHT_WIN.set(TalonSRXControlMode.PercentOutput, Demand);
     }
 
     /** Stop winch movement */
@@ -121,8 +121,8 @@ public class ClimbSubsystem extends SubsystemBase {
      * @param Demand - Target position of arms
      */
     public void armPositionControl(DoubleSupplier Demand) {
-        C_LEFT_ARM.set(TalonSRXControlMode.Position, Demand.getAsDouble());
-        C_RIGHT_ARM.set(TalonSRXControlMode.Position, Demand.getAsDouble());
+        C_LEFT_ARM.set(TalonSRXControlMode.PercentOutput, Demand.getAsDouble());
+        C_RIGHT_ARM.set(TalonSRXControlMode.PercentOutput, Demand.getAsDouble());
     }
 
     /**
@@ -131,8 +131,8 @@ public class ClimbSubsystem extends SubsystemBase {
      * @param Demand - Target position of arms
      */
     public void armPositionControl(Double Demand) {
-        C_LEFT_ARM.set(TalonSRXControlMode.Position, Demand);
-        C_RIGHT_ARM.set(TalonSRXControlMode.Position, Demand);
+        C_LEFT_ARM.set(TalonSRXControlMode.PercentOutput, Demand);
+        C_RIGHT_ARM.set(TalonSRXControlMode.PercentOutput, Demand);
     }
 
     /** Stop arm movement */

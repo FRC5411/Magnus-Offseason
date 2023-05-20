@@ -19,7 +19,6 @@ import frc.robot.Constants.Drive.MotorPorts;
 import frc.robot.Constants.Functions;
 import java.util.function.DoubleSupplier;
 import java.lang.ClassCastException;
-import java.util.Objects;
 
 //------------------[Drive Subsystem]------------------//
 /** Magnus' drivetrain subsystem */
@@ -77,10 +76,6 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Driver - Driver Class Profile
      */
     public DriveSubsystem(Integer FL, Integer FR, Integer RL, Integer RR, Class<?> Driver) {
-        Objects.requireNonNull(FL, "Front left motor controller port cannot be Null");
-        Objects.requireNonNull(FR, "Front right motor controller port Cannot be Null");
-        Objects.requireNonNull(RL, "Rear left motor controller port Cannot be Null");
-        Objects.requireNonNull(RR, "Rear right motor controller port Cannot be Null");
         FRONT_LEFT = new WPI_TalonFX(FL);
         FRONT_RIGHT = new WPI_TalonFX(FR);
         REAR_LEFT = new WPI_TalonFX(RL);
@@ -106,7 +101,8 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Velocity - Velocity Target
      * @param Rotation - Rotation Target
      */
-    public void arcadeDrive(Double Velocity, Double Rotation) {
+    public void arcadeDrive(Double Velocity, Double Rotation) 
+    {
         DB_DRIVEBASE.arcadeDrive((DB_Mode) ? (-Velocity * 0.20) : (-Velocity * DB_Speed_Coefficient),
                 (DB_Mode) ? (-Rotation * 0.20) : (-Rotation));
         /*
@@ -125,8 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Rotation - Rotation Target
      */
     public void arcadeDrive(DoubleSupplier Velocity, DoubleSupplier Rotation) {
-        arcadeDrive((DB_Mode) ? (-Velocity.getAsDouble() * 0.20) : (-Velocity.getAsDouble() * DB_Speed_Coefficient),
-                (DB_Mode) ? (-Rotation.getAsDouble() * 0.20) : (-Rotation.getAsDouble()));
+        arcadeDrive(Velocity.getAsDouble(),Rotation.getAsDouble());
     }
 
     /**
@@ -135,10 +130,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Demand - Pose2d Target with both a target Velocity and Rotation
      */
     public void arcadeDrive(Pose2d Demand) {
-        var Velocity = Functions.norm(Demand.getX(), Demand.getY());
-        var Rotation = Demand.getRotation().getDegrees();
-        arcadeDrive((DB_Mode) ? (-Velocity * 0.20) : (-Velocity * DB_Speed_Coefficient),
-                (DB_Mode) ? (-Rotation * 0.20) : (-Rotation));
+        arcadeDrive(Functions.norm(Demand.getX(), Demand.getY()),Demand.getRotation().getDegrees());
     }
 
     /** Configure Magnus' drivebase devices */
