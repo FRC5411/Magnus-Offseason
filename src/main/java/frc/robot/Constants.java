@@ -118,89 +118,72 @@ public final class Constants {
     }
 
     public static final class DriverProfile {
-        public static final Class<?> DRIVER_PROFILE = (Cody_W.class); // TODO: Change as Needed
-        public static final Integer DRIVER_CONTROLLER_PORT = (0); // TODO: Change as Needed
+        public static final Class<?> DRIVER_PROFILE = (Cody_W.class);
+        public static final Integer DRIVER_CONTROLLER_PORT = (0);
 
-        /*
-         * public static final class ExampleProfile {
-         * public static final Double JOYSTICK_X_DEADZONE = (X) * (Math.pow(10, -2)); <-
-         * selected Right joystick X deadzone
-         * public static final Double JOYSTICK_Y_DEADZONE = (X) * (Math.pow(10, -2)); <-
-         * selected Left joystick Y deadzone
-         * public static final Double SPEED_COEFFICIENT_SENSITIVITY = (X) *
-         * (Math.pow(10, -2)); <- Amount per tick to reduce speed by
-         * public static final String TRIGGER_INCREMENT = "X"; <- button to increase
-         * speed coefficent
-         * public static final String TRIGGER_DECREMENT = "X"; <- button to decrease
-         * speed coefficent
-         * public static final String TRIGGER_INTAKE_IN = "X"; <- button to Put intake
-         * in
-         * public static final String TRIGGER_INTAKE_OUT = "X"; <- button to Put intake
-         * out
-         * public static final String TRIGGER_INTAKE_STOP = "X"; <- button to Stop
-         * intake motors
-         * public static final String TRIGGER_FIRE_OBJECT = "X"; <- button to Shooter
-         * fire stored object
-         * public static final String TRIGGER_MODE_SWITCH = "X"; <- button to Switch
-         * from pep-rally to normal shoot or vice-versa
-         * public static final String TRIGGER_DB_MODE = "X"; <- button to Switch from
-         * 'sniper-mode' to 'regular' driving
-         * public static final String TRIGGER_L_ARM_CONTROL = "X"; <- button to Direct
-         * left arm control
-         * public static final String TRIGGER_R_ARM_CONTROL = "X"; <- button to Drict
-         * right arm control
-         * }
-         */
-
+        public static final class ControllerButtons {
+            public static final String BUTTON_A = "a";
+            public static final String BUTTON_B = "b";
+            public static final String BUTTON_X = "x";
+            public static final String BUTTON_Y = "y";
+            public static final String BUTTON_POV_LEFT = "povLeft";
+            public static final String BUTTON_POV_UP = "povRight";
+            public static final String BUTTON_POV_CENTER = "povCenter";
+            public static final String BUTTON_POV_DOWN = "povUp";
+            public static final String BUTTON_POV_RIGHT = "povDown";
+            public static final String BUTTON_LEFT_TRIGGER = "leftTrigger";
+            public static final String BUTTON_RIGHT_TRIGGER = "rightTrigger";
+            public static final String BUTTON_LEFT_BUMPER = "leftBumper";
+            public static final String BUTTON_RIGHT_BUMPER = "rightBumper";
+        }
         public static final class Cody_W {
             public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
-            public static final String TRIGGER_INCREMENT = "povLeft";
-            public static final String TRIGGER_DECREMENT = "povRight";
-            public static final String TRIGGER_INTAKE_OUT = "leftTrigger";
-            public static final String TRIGGER_INTAKE_IN = "rightTrigger";
-            public static final String TRIGGER_INTAKE_STOP = "x";
-            public static final String TRIGGER_FIRE_OBJECT = "a";
-            public static final String TRIGGER_MODE_SWITCH = "b";
-            public static final String TRIGGER_DB_MODE = "y";
-            public static final String TRIGGER_L_ARM_CONTROL = "leftBumper";
-            public static final String TRIGGER_R_ARM_CONTROL = "rightBumper";
+            public static final String TRIGGER_INCREMENT = ControllerButtons.BUTTON_POV_LEFT;
+            public static final String TRIGGER_DECREMENT = ControllerButtons.BUTTON_POV_RIGHT;
+            public static final String TRIGGER_INTAKE_OUT = ControllerButtons.BUTTON_LEFT_TRIGGER;
+            public static final String TRIGGER_INTAKE_IN = ControllerButtons.BUTTON_RIGHT_TRIGGER;
+            public static final String TRIGGER_INTAKE_STOP = ControllerButtons.BUTTON_X;
+            public static final String TRIGGER_FIRE_OBJECT = ControllerButtons.BUTTON_A;
+            public static final String TRIGGER_MODE_SWITCH = ControllerButtons.BUTTON_B;
+            public static final String TRIGGER_DB_MODE = ControllerButtons.BUTTON_Y;
+            public static final String TRIGGER_L_ARM_CONTROL = ControllerButtons.BUTTON_LEFT_BUMPER;
+            public static final String TRIGGER_R_ARM_CONTROL = ControllerButtons.BUTTON_RIGHT_BUMPER;
         }
 
         public static final class Alex_P {
             public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
-            public static final String TRIGGER_INCREMENT = "povLeft";
-            public static final String TRIGGER_DECREMENT = "povRight";
-            public static final String TRIGGER_INTAKE_OUT = "leftTrigger";
-            public static final String TRIGGER_INTAKE_IN = "rightTrigger";
-            public static final String TRIGGER_INTAKE_STOP = "x";
-            public static final String TRIGGER_FIRE_OBJECT = "a";
-            public static final String TRIGGER_MODE_SWITCH = "b";
-            public static final String TRIGGER_HOPPER_TOGGLE = "y";
-            public static final String TRIGGER_L_ARM_CONTROL = "leftBumper";
-            public static final String TRIGGER_R_ARM_CONTROL = "rightBumper";
+            public static final String TRIGGER_INCREMENT = ControllerButtons.BUTTON_POV_LEFT;
+            public static final String TRIGGER_DECREMENT = ControllerButtons.BUTTON_POV_RIGHT;
+            public static final String TRIGGER_INTAKE_OUT = ControllerButtons.BUTTON_LEFT_TRIGGER;
+            public static final String TRIGGER_INTAKE_IN = ControllerButtons.BUTTON_RIGHT_TRIGGER;
+            public static final String TRIGGER_INTAKE_STOP = ControllerButtons.BUTTON_X;
+            public static final String TRIGGER_FIRE_OBJECT = ControllerButtons.BUTTON_A;
+            public static final String TRIGGER_MODE_SWITCH = ControllerButtons.BUTTON_B;
+            public static final String TRIGGER_DB_MODE = ControllerButtons.BUTTON_Y;
+            public static final String TRIGGER_L_ARM_CONTROL = ControllerButtons.BUTTON_LEFT_BUMPER;
+            public static final String TRIGGER_R_ARM_CONTROL = ControllerButtons.BUTTON_RIGHT_BUMPER;
         }
 
         public static final class Default {
             public static final Integer PRIMARY_CONTROLLER_PORT = 0;
-            public static final CommandXboxController PRIMARY_CONTROLLER = new CommandXboxController(
-                    PRIMARY_CONTROLLER_PORT);
+            public static final CommandXboxController PRIMARY_CONTROLLER = new CommandXboxController(PRIMARY_CONTROLLER_PORT);
             public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (5) * (Math.pow(10, -2));
-            public static final Trigger TRIGGER_INCREMENT = PRIMARY_CONTROLLER.leftTrigger();
-            public static final Trigger TRIGGER_DECREMENT = PRIMARY_CONTROLLER.rightTrigger();
-            public static final Trigger TRIGGER_INTAKE_IN = PRIMARY_CONTROLLER.rightBumper();
-            public static final Trigger TRIGGER_INTAKE_OUT = PRIMARY_CONTROLLER.leftBumper();
+            public static final Trigger TRIGGER_INCREMENT = PRIMARY_CONTROLLER.povLeft();
+            public static final Trigger TRIGGER_DECREMENT = PRIMARY_CONTROLLER.povRight();
+            public static final Trigger TRIGGER_INTAKE_OUT = PRIMARY_CONTROLLER.leftTrigger();
+            public static final Trigger TRIGGER_INTAKE_IN = PRIMARY_CONTROLLER.rightTrigger();
             public static final Trigger TRIGGER_INTAKE_STOP = PRIMARY_CONTROLLER.x();
             public static final Trigger TRIGGER_FIRE_OBJECT = PRIMARY_CONTROLLER.a();
             public static final Trigger TRIGGER_MODE_SWITCH = PRIMARY_CONTROLLER.b();
             public static final Trigger TRIGGER_DB_MODE = PRIMARY_CONTROLLER.y();
-            public static final Trigger TRIGGER_L_ARM_CONTROL = PRIMARY_CONTROLLER.povLeft();
-            public static final Trigger TRIGGER_R_ARM_CONTROL = PRIMARY_CONTROLLER.povRight();
+            public static final Trigger TRIGGER_L_ARM_CONTROL = PRIMARY_CONTROLLER.leftBumper();
+            public static final Trigger TRIGGER_R_ARM_CONTROL = PRIMARY_CONTROLLER.rightBumper();
         }
     }
 
