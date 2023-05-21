@@ -17,6 +17,7 @@ public class ClimbCommand extends CommandBase {
     protected final ClimbSubsystem Dependent;
     // -------------------[Properties]------------------//
     protected Boolean isFinished = false;
+
     // ------------------[Constructors]-----------------//
     public ClimbCommand(DoubleSupplier DemandArm, DoubleSupplier DemandWinch, Integer DemandSides, Boolean DemandType,
             ClimbSubsystem Dependent) {

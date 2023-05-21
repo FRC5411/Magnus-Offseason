@@ -5,6 +5,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Intake.SolenoidChannels;
 import frc.robot.Constants.Intake.MotorPorts;
+import frc.robot.Constants.Intake.Data;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -87,18 +88,18 @@ public class IntakeSubsystem extends SubsystemBase {
     /** Set intake to inwards */
     public void setIntakeInwards() {
         if (checkSolenoidStates(DoubleSolenoid.Value.kForward) | checkSolenoidStates(DoubleSolenoid.Value.kOff)) {
-            I_INTAKE.set(TalonSRXControlMode.PercentOutput, 1.0);
-            I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, 1.0);
-            I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, 1.0);
+            I_INTAKE.set(TalonSRXControlMode.PercentOutput, Data.Intake_Motor_In);
+            I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, Data.Intake_Motor_In);
+            I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, Data.Intake_Motor_In);
         }
     }
 
     /** Set intake to outwards */
     public void setIntakeOutwards() {
         if (checkSolenoidStates(DoubleSolenoid.Value.kReverse) | checkSolenoidStates(DoubleSolenoid.Value.kOff)) {
-            I_INTAKE.set(TalonSRXControlMode.PercentOutput, -1.0);
-            I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, -1.0);
-            I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, -1.0);
+            I_INTAKE.set(TalonSRXControlMode.PercentOutput, Data.Intake_Motor_Out);
+            I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, Data.Intake_Motor_Out);
+            I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, Data.Intake_Motor_Out);
         }
     }
 
@@ -107,7 +108,6 @@ public class IntakeSubsystem extends SubsystemBase {
         I_INTAKE.set(TalonSRXControlMode.PercentOutput, 0);
         I_INDEXLEFT.set(TalonSRXControlMode.PercentOutput, 0);
         I_INDEXRIGHT.set(TalonSRXControlMode.PercentOutput, 0);
-        toggleAllSolenoids();
     }
 
     /** Toggle all solenoids and if any solenoid off, set to reverse value */

@@ -18,12 +18,15 @@ public class RobotContainer {
   private final DriveSubsystem M_Drive;
   private final IntakeSubsystem M_Intake;
   private final ClimbSubsystem M_Climb;
+  private final ShooterSubsystem M_Shooter;
   // -----------------[Robot Controls]-------------------//
   private CommandXboxController M_Controller;
-  private Trigger Trigger_DB_Mode_Switch;
+  private Trigger Trigger_Hopper_Toggle;
+  private Trigger Trigger_Shooter_Fire;
   private Trigger Trigger_Additive;
   private Trigger Trigger_Subtractive;
-  private Trigger Trigger_Intake;
+  private Trigger Trigger_Intake_Out;
+  private Trigger Trigger_Intake_In;
   private Trigger Trigger_Left_Arm_Movement;
   private Trigger Trigger_Right_Arm_Movement;
   private Trigger Trigger_Control_Mode_Switch;
@@ -35,44 +38,62 @@ public class RobotContainer {
   // ------------------[Constructors]--------------------//
   /** Constructor */
   public RobotContainer() {
-    // Contro    M_Controller = new CommandXboxController(M_Controller_Port);
-
     // Defining Subsystems and Commands
-    M_Drive = new DriveSubsystem(M_Driver);
-    M_Drive.setDefaultCommand(new DriveCommand(() -> M_Controller.getLeftY(),
-        () -> M_Controller.getRightX(), M_Driver, M_Drive));
-    M_AutonomousCommand = new DriveCommand(() -> 0.0, () -> 0.5, M_Driver, M_Drive);
+    M_Controller = new CommandXboxController(DriverProfile.DRIVER_CONTROLLER_PORT);
+    M_Drive = new DriveSubsystem();
+    M_Drive.setDefaultCommand(new DriveCommand(() -> M_Controller.getLeftY(), () -> M_Controller.getRightX(), M_Drive));
+    M_AutonomousCommand = new DriveCommand(() -> 0.0, () -> 0.5, M_Drive);
     M_Intake = new IntakeSubsystem();
     M_Climb = new ClimbSubsystem();
+    M_Shooter = new ShooterSubsystem();
 
-    // Triggers
+    // -------------[Trigger Definition]---------------//
+
     if (M_Controller == null) {
       Commands.print("Controller Unidentified; Set to Default.");
       M_Controller = DriverProfile.Default.PRIMARY_CONTROLLER;
     }
-    Trigger_DB_Mode_Switch = (Trigger) Functions.getMethodAndExecute(M_Controller,
-        (String) Functions.getFieldValue(M_Driver, "TRIGGER_MODE_SWITCH"));
-    if (Trigger_DB_Mode_Switch == null) {
-      Commands.print("TRIGGER_MODE_SWITCH Unidentified; Set to Default.");
-      Trigger_DB_Mode_Switch = DriverProfile.Default.TRIGGER_DB_MODE;
+
+    Trigger_Hopper_Toggle = (Trigger) Functions.getMethodAndExecute(M_Controller,
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_HOPPER_TOGGLE"));
+    if (Trigger_Hopper_Toggle == null) {
+      Commands.print("TRIGGER_HOPPER_TOGGLE Unidentified; Set to Default.");
+      Trigger_Hopper_Toggle = DriverProfile.Default.TRIGGER_DB_MODE;
     }
+
+    Trigger_Shooter_Fire = (Trigger) Functions.getMethodAndExecute(M_Controller,
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_FIRE_OBJECT"));
+    if (Trigger_Shooter_Fire == null) {
+      Commands.print("TRIGGER_FIRE_OBJECT Unidentified; Set to Default.");
+      Trigger_Shooter_Fire = DriverProfile.Default.TRIGGER_FIRE_OBJECT;
+    }
+
     Trigger_Additive = (Trigger) Functions.getMethodAndExecute(M_Controller,
         (String) Functions.getFieldValue(M_Driver, "TRIGGER_INCREMENT"));
     if (Trigger_Additive == null) {
       Commands.print("TRIGGER_INCREMENT Unidentified; Set to Default.");
       Trigger_Additive = DriverProfile.Default.TRIGGER_INCREMENT;
     }
+
     Trigger_Subtractive = (Trigger) Functions.getMethodAndExecute(M_Controller,
         (String) Functions.getFieldValue(M_Driver, "TRIGGER_DECREMENT"));
     if (Trigger_Subtractive == null) {
       Commands.print("TRIGGER_DECREMENT Unidentified; Set to Default.");
       Trigger_Subtractive = DriverProfile.Default.TRIGGER_DECREMENT;
     }
-    Trigger_Intake = (Trigger) Functions.getMethodAndExecute(M_Controller,
-        (String) Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE"));
-    if (Trigger_Intake == null) {
-      Commands.print("TRIGGER_INTAKE Unidentified; Set to Default.");
-      Trigger_Intake = DriverProfile.Default.TRIGGER_INTAKE;
+
+    Trigger_Intake_Out = (Trigger) Functions.getMethodAndExecute(M_Controller,
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE_OUT"));
+    if (Trigger_Intake_Out == null) {
+      Commands.print("TRIGGER_INTAKE_OUT Unidentified; Set to Default.");
+      Trigger_Intake_Out = DriverProfile.Default.TRIGGER_INTAKE_OUT;
+    }
+
+    Trigger_Intake_In = (Trigger) Functions.getMethodAndExecute(M_Controller,
+        (String) Functions.getFieldValue(M_Driver, "TRIGGER_INTAKE_IN"));
+    if (Trigger_Intake_Out == null) {
+      Commands.print("TRIGGER_INTAKE_OUT Unidentified; Set to Default.");
+      Trigger_Intake_Out = DriverProfile.Default.TRIGGER_INTAKE_IN;
     }
 
     Trigger_Left_Arm_Movement = (Trigger) Functions.getMethodAndExecute(M_Controller,
@@ -88,22 +109,32 @@ public class RobotContainer {
       Commands.print("TRIGGER_R_ARM_CONTROL Unidentified; Set to Default.");
       Trigger_Right_Arm_Movement = DriverProfile.Default.TRIGGER_R_ARM_CONTROL;
     }
+
     Trigger_Control_Mode_Switch = (Trigger) Functions.getMethodAndExecute(M_Controller,
         (String) Functions.getFieldValue(M_Driver, "TRIGGER_MODE_SWITCH"));
     if (Trigger_Control_Mode_Switch == null) {
       Commands.print("TRIGGER_CONTROL_MODE_SWITCH Unidentified; Set to Default.");
       Trigger_Control_Mode_Switch = DriverProfile.Default.TRIGGER_MODE_SWITCH;
     }
+
     configureButtonBindings();
   }
 
   /** Configure Controller triggers bindings with Null protection */
   private void configureButtonBindings() {
     try {
-      Trigger_DB_Mode_Switch.onTrue(Commands.run(M_Drive::toggleDrivingMode, M_Drive));
+      Trigger_Hopper_Toggle.onTrue(Commands.run(M_Shooter::HopperInwards, M_Shooter));
+      Trigger_Hopper_Toggle.onFalse(Commands.run(M_Shooter::HopperOutwards, M_Shooter));
     } catch (NullPointerException exception) {
       Commands
-          .print("TRIGGER_MODE_SWITCH default failed; check Constants.DriverProfile.Default, could not find default");
+          .print("TRIGGER_HOPPER_TOGGLE default failed; check Constants.DriverProfile.Default, could not find default");
+    }
+    try {
+      Trigger_Shooter_Fire.onTrue(
+          Commands.run((M_Control_Mode) ? (M_Shooter::shooterFireRegular) : (M_Shooter::shooterFireRally), M_Shooter));
+    } catch (NullPointerException exception) {
+      Commands
+          .print("TRIGGER_FIRE_OBJECT default failed; check Constants.DriverProfile.Default, could not find default");
     }
     try {
       Trigger_Additive.whileTrue(Commands.run(M_Drive::incrementCoefficient, M_Drive));
@@ -116,8 +147,15 @@ public class RobotContainer {
       Commands.print("TRIGGER_DECREMENT default failed; check Constants.DriverProfile.Default, could not find default");
     }
     try {
-      Trigger_Intake.onTrue(Commands.run(M_Intake::setIntakeOutwards, M_Intake));
-      Trigger_Intake.onFalse(Commands.run(M_Intake::setIntakeStop,M_Intake));
+      Trigger_Intake_Out.onTrue(Commands.run(M_Intake::setIntakeOutwards, M_Intake));
+      Trigger_Intake_Out.onFalse(Commands.run(M_Intake::setIntakeStop, M_Intake));
+    } catch (NullPointerException exception) {
+      Commands
+          .print("TRIGGER_INTAKE default failed; check Constants.DriverProfile.Default, could not find default");
+    }
+    try {
+      Trigger_Intake_In.onTrue(Commands.run(M_Intake::setIntakeInwards, M_Intake));
+      Trigger_Intake_In.onFalse(Commands.run(M_Intake::setIntakeStop, M_Intake));
     } catch (NullPointerException exception) {
       Commands
           .print("TRIGGER_INTAKE default failed; check Constants.DriverProfile.Default, could not find default");
@@ -164,5 +202,9 @@ public class RobotContainer {
   /** Toggle operating mode */
   public void toggleControlMode() {
     this.M_Control_Mode = !M_Control_Mode;
+  }
+
+  public Boolean getControlMode() {
+    return this.M_Control_Mode;
   }
 }

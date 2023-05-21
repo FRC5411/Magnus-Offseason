@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import frc.robot.Constants.Drive.HardwareInformation;
 import frc.robot.Constants.Drive.MotorPorts;
+import frc.robot.Constants.DriverProfile;
 import frc.robot.Constants.Functions;
 import java.util.function.DoubleSupplier;
 import java.lang.ClassCastException;
@@ -37,17 +38,14 @@ public class DriveSubsystem extends SubsystemBase {
     private final Timer DB_PERIODIC_TIME;
     // -------------------[Properties]------------------//
     private Rotation2d DB_Heading;
-    private Boolean DB_Mode;
     private Double DB_Speed_Coefficient;
     private final Class<?> DB_Driver;
 
     // ------------------[Constructors]-----------------//
     /**
      * Constructor.
-     * 
-     * @param Driver - Driver Class Profile
      */
-    public DriveSubsystem(Class<?> Driver) {
+    public DriveSubsystem() {
         FRONT_LEFT = new WPI_TalonFX(MotorPorts.FL);
         FRONT_RIGHT = new WPI_TalonFX(MotorPorts.FR);
         REAR_LEFT = new WPI_TalonFX(MotorPorts.RL);
@@ -60,9 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
         DB_WHEEL_SPEEDS = new DifferentialDriveWheelSpeeds(0.0, 0.0);
         DB_PERIODIC_TIME = new Timer();
         DB_Heading = new Rotation2d(0.0);
-        DB_Mode = false;
         DB_Speed_Coefficient = 1.0;
-        DB_Driver = Driver;
+        DB_Driver = DriverProfile.DRIVER_PROFILE;
         configureDrivebase();
     }
 
@@ -75,7 +72,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param RR     - Rear right motorcontroller port
      * @param Driver - Driver Class Profile
      */
-    public DriveSubsystem(Integer FL, Integer FR, Integer RL, Integer RR, Class<?> Driver) {
+    public DriveSubsystem(Integer FL, Integer FR, Integer RL, Integer RR) {
         FRONT_LEFT = new WPI_TalonFX(FL);
         FRONT_RIGHT = new WPI_TalonFX(FR);
         REAR_LEFT = new WPI_TalonFX(RL);
@@ -88,9 +85,8 @@ public class DriveSubsystem extends SubsystemBase {
         DB_WHEEL_SPEEDS = new DifferentialDriveWheelSpeeds(0.0, 0.0);
         DB_PERIODIC_TIME = new Timer();
         DB_Heading = new Rotation2d(0.0);
-        DB_Mode = false;
         DB_Speed_Coefficient = 1.0;
-        DB_Driver = Driver;
+        DB_Driver = DriverProfile.DRIVER_PROFILE;
         configureDrivebase();
     }
 
@@ -101,10 +97,10 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Velocity - Velocity Target
      * @param Rotation - Rotation Target
      */
-    public void arcadeDrive(Double Velocity, Double Rotation)
-    {
-        DB_DRIVEBASE.arcadeDrive((DB_Mode) ? (Velocity * 0.20) : (Velocity * DB_Speed_Coefficient),
-                (DB_Mode) ? (Rotation * 0.20) : (Rotation * DB_Speed_Coefficient));
+    public void arcadeDrive(Double Velocity, Double Rotation) {
+        Velocity = (Velocity > (Double) Functions.getFieldValue(DB_Driver, "JOYSTICK_Y_DEADZONE")) ? (Velocity) : (0.0);
+        Rotation = (Rotation > (Double) Functions.getFieldValue(DB_Driver, "JOYSTICK_X_DEADZONE")) ? (Rotation) : (0.0);
+        DB_DRIVEBASE.arcadeDrive((Velocity * DB_Speed_Coefficient),(Rotation * DB_Speed_Coefficient));
         /*
          * DB_DRIVEBASE.arcadeDrive((DB_Mode)? (-Velocity * 0.20):
          * (-DB_M_PID.calculate(Functions.norm(DB_KINEMATICS.toChassisSpeeds(
@@ -121,7 +117,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Rotation - Rotation Target
      */
     public void arcadeDrive(DoubleSupplier Velocity, DoubleSupplier Rotation) {
-        arcadeDrive(Velocity.getAsDouble(),Rotation.getAsDouble());
+        arcadeDrive(Velocity.getAsDouble(), Rotation.getAsDouble());
     }
 
     /**
@@ -130,7 +126,7 @@ public class DriveSubsystem extends SubsystemBase {
      * @param Demand - Pose2d Target with both a target Velocity and Rotation
      */
     public void arcadeDrive(Pose2d Demand) {
-        arcadeDrive(Functions.norm(Demand.getX(), Demand.getY()),Demand.getRotation().getDegrees());
+        arcadeDrive(Demand.getX(), Demand.getY());
     }
 
     /** Configure Magnus' drivebase devices */
@@ -150,45 +146,33 @@ public class DriveSubsystem extends SubsystemBase {
         REAR_LEFT.setInverted(TalonFXInvertType.CounterClockwise);
         REAR_RIGHT.setInverted(TalonFXInvertType.Clockwise);
     }
-
-    /** Toggle the current driving mode */
-    public void toggleDrivingMode() {
-        this.DB_Mode = !this.DB_Mode;
-    }
-
-    /**
-     * Set a new driving mode
-     * 
-     * @param Mode - Desired driving mode
-     */
-    public void setDrivingMode(Boolean Mode) {
-        this.DB_Mode = Mode;
-    }
-
     /** Decrement driving speed coefficient */
     public void decrementCoefficient() {
-        try{
+        try {
             DB_Speed_Coefficient -= (Double) Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");
+        } catch (ClassCastException exception) {
+            exception.printStackTrace();
+            return;
         }
-        catch(ClassCastException exception) {exception.printStackTrace(); return;}
     }
 
     /** Increment driving speed coefficient */
-    public void incrementCoefficient() 
-    {
+    public void incrementCoefficient() {
         try {
             DB_Speed_Coefficient += (Double) Functions.getFieldValue(DB_Driver, "SPEED_COEFFICIENT_SENSITIVITY");
+        } catch (ClassCastException exception) {
+            exception.printStackTrace();
+            return;
         }
-        catch(ClassCastException exception) {exception.printStackTrace(); return;}
     }
 
     // -------------------[Subsystem]-------------------//
     @Override
     public void periodic() {
         DB_WHEEL_SPEEDS.leftMetersPerSecond = ((FRONT_LEFT.getSelectedSensorVelocity() +
-                REAR_LEFT.getSelectedSensorVelocity())/2.0) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
+                REAR_LEFT.getSelectedSensorVelocity()) / 2.0) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
         DB_WHEEL_SPEEDS.rightMetersPerSecond = ((FRONT_LEFT.getSelectedSensorVelocity() +
-        REAR_LEFT.getSelectedSensorVelocity())/2.0) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
+                REAR_LEFT.getSelectedSensorVelocity()) / 2.0) * HardwareInformation.ENCODER_TICK_TO_METER_FACTOR;
         var DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
         var DB_Heading_Current = ((DB_Chassis_Speeds.omegaRadiansPerSecond * DB_PERIODIC_TIME.get())
                 + (DB_Heading.getRadians()));
@@ -219,13 +203,11 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     /** @return Rate of angular velocity */
-    public Double getTurnRate()
-    {
+    public Double getTurnRate() {
         var DB_Chassis_Speeds = DB_KINEMATICS.toChassisSpeeds(DB_WHEEL_SPEEDS);
         return ((DB_Chassis_Speeds.omegaRadiansPerSecond * DB_PERIODIC_TIME.get())
-        + (DB_Heading.getRadians()));
+                + (DB_Heading.getRadians()));
     }
     // -------------------[Mutators]--------------------//
 
-    
 }

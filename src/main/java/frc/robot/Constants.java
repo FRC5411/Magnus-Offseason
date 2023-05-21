@@ -60,6 +60,12 @@ public final class Constants {
             public static final Integer SM = 0;
         }
 
+        public static final class Data {
+            public static final Double Intake_Motor_In = (1.0);
+
+            public static final Double Intake_Motor_Out = (-1.0);
+        }
+
         public static final class SolenoidChannels {
             public static final Integer[] SONE = { 2, 7 };
 
@@ -90,7 +96,25 @@ public final class Constants {
     }
 
     public static final class Shooter {
-        // TODO: Armaan Shooter Constants Here
+        public static final class MotorPorts {
+            public static final Integer LR = 31;
+
+            public static final Integer LH = 33;
+
+            public static final Integer RR = 32;
+
+            public static final Integer RH = 34;
+        }
+
+        public static final class Data {
+            public static final Double HOPPER_IN = (1.0);
+
+            public static final Double HOPPER_OUT = (-1.0);
+
+            public static final Double REGULAR_FIRE = (0.1);
+
+            public static final Double RALLY_FIRE = (1.0);
+        }
     }
 
     public static final class DriverProfile {
@@ -132,30 +156,32 @@ public final class Constants {
             public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
-            public static final String TRIGGER_INCREMENT = "leftTrigger";
-            public static final String TRIGGER_DECREMENT = "rightTrigger";
-            public static final String TRIGGER_INTAKE = "leftBumper";
+            public static final String TRIGGER_INCREMENT = "povLeft";
+            public static final String TRIGGER_DECREMENT = "povRight";
+            public static final String TRIGGER_INTAKE_OUT = "leftTrigger";
+            public static final String TRIGGER_INTAKE_IN = "rightTrigger";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
             public static final String TRIGGER_MODE_SWITCH = "b";
             public static final String TRIGGER_DB_MODE = "y";
-            public static final String TRIGGER_L_ARM_CONTROL = "povLeft";
-            public static final String TRIGGER_R_ARM_CONTROL = "povRight";
+            public static final String TRIGGER_L_ARM_CONTROL = "leftBumper";
+            public static final String TRIGGER_R_ARM_CONTROL = "rightBumper";
         }
 
         public static final class Alex_P {
             public static final Double JOYSTICK_X_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double JOYSTICK_Y_DEADZONE = (5) * (Math.pow(10, -2));
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (1) * (Math.pow(10, -2));
-            public static final String TRIGGER_INCREMENT = "leftTrigger";
-            public static final String TRIGGER_DECREMENT = "rightTrigger";
-            public static final String TRIGGER_INTAKE = "leftBumper";
+            public static final String TRIGGER_INCREMENT = "povLeft";
+            public static final String TRIGGER_DECREMENT = "povRight";
+            public static final String TRIGGER_INTAKE_OUT = "leftTrigger";
+            public static final String TRIGGER_INTAKE_IN = "rightTrigger";
             public static final String TRIGGER_INTAKE_STOP = "x";
             public static final String TRIGGER_FIRE_OBJECT = "a";
             public static final String TRIGGER_MODE_SWITCH = "b";
-            public static final String TRIGGER_DB_MODE = "y";
-            public static final String TRIGGER_L_ARM_CONTROL = "povLeft";
-            public static final String TRIGGER_R_ARM_CONTROL = "povRight";
+            public static final String TRIGGER_HOPPER_TOGGLE = "y";
+            public static final String TRIGGER_L_ARM_CONTROL = "leftBumper";
+            public static final String TRIGGER_R_ARM_CONTROL = "rightBumper";
         }
 
         public static final class Default {
@@ -167,7 +193,8 @@ public final class Constants {
             public static final Double SPEED_COEFFICIENT_SENSITIVITY = (5) * (Math.pow(10, -2));
             public static final Trigger TRIGGER_INCREMENT = PRIMARY_CONTROLLER.leftTrigger();
             public static final Trigger TRIGGER_DECREMENT = PRIMARY_CONTROLLER.rightTrigger();
-            public static final Trigger TRIGGER_INTAKE = PRIMARY_CONTROLLER.rightBumper();
+            public static final Trigger TRIGGER_INTAKE_IN = PRIMARY_CONTROLLER.rightBumper();
+            public static final Trigger TRIGGER_INTAKE_OUT = PRIMARY_CONTROLLER.leftBumper();
             public static final Trigger TRIGGER_INTAKE_STOP = PRIMARY_CONTROLLER.x();
             public static final Trigger TRIGGER_FIRE_OBJECT = PRIMARY_CONTROLLER.a();
             public static final Trigger TRIGGER_MODE_SWITCH = PRIMARY_CONTROLLER.b();
@@ -187,18 +214,18 @@ public final class Constants {
          * retrieves a method from a class and executes it regardless of the method's
          * protection level
          * 
-         * @param Object_Any    - Object to invoke on
+         * @param Instance_Any  - Object to invoke on
          * @param MethodName    - Name of Method
          * @param Arguments_Any - Arguments of Method
          * @return the result of the Invoked Method
          */
-        public static Object getMethodAndExecute(Object Object_Any, String MethodName, Object... Arguments_Any) {
+        public static Object getMethodAndExecute(Object Instance_Any, String MethodName, Object... Arguments_Any) {
             var ArgumentTypes = Arrays.stream(Arguments_Any).map(Object::getClass).toArray(Class<?>[]::new);
             if (ArgumentTypes.length > 0) {
                 try {
-                    var MethodCapture = Object_Any.getClass().getDeclaredMethod(MethodName, ArgumentTypes);
+                    var MethodCapture = Instance_Any.getClass().getDeclaredMethod(MethodName, ArgumentTypes);
                     MethodCapture.setAccessible(true);
-                    var MethodReturn = MethodCapture.invoke(Object_Any.getClass(), Arguments_Any);
+                    var MethodReturn = MethodCapture.invoke(Instance_Any.getClass(), Arguments_Any);
                     return (MethodReturn == (null)) ? Void.class : MethodReturn;
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
                     exception.printStackTrace();
@@ -206,9 +233,9 @@ public final class Constants {
                 }
             } else {
                 try {
-                    var MethodCapture = Object_Any.getClass().getDeclaredMethod(MethodName);
+                    var MethodCapture = Instance_Any.getClass().getDeclaredMethod(MethodName);
                     MethodCapture.setAccessible(true);
-                    var MethodReturn = MethodCapture.invoke(Object_Any);
+                    var MethodReturn = MethodCapture.invoke(Instance_Any);
                     return (MethodReturn == (null)) ? Void.class : MethodReturn;
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
                     exception.printStackTrace();
