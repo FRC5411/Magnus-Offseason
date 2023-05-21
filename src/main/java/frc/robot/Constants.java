@@ -29,11 +29,11 @@ public final class Constants {
         public static final class MotorPorts {
             public static final Integer FL = 12;
 
-            public static final Integer FR = 13;
+            public static final Integer FR = 11;
 
-            public static final Integer RL = 11;
+            public static final Integer RL = 14;
 
-            public static final Integer RR = 14;
+            public static final Integer RR = 13;
         }
 
         public static final class Data {
@@ -83,9 +83,9 @@ public final class Constants {
 
             public static final Double C_ARM_DOWN = (0.5);
 
-            public static final Double C_WIN_IN = (-0.8);
+            public static final Double C_WIN_IN = (0.8);
 
-            public static final Double C_WIN_OUT = (0.8);
+            public static final Double C_WIN_OUT = (-0.8);
         }
     }
 

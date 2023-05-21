@@ -83,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
         DB_LEFT = new MotorControllerGroup(FRONT_LEFT, REAR_LEFT);
         DB_RIGHT = new MotorControllerGroup(FRONT_RIGHT, REAR_RIGHT);
         // DB_M_PID = new PIDController(PID.DB_KP, PID.DB_KI, PID.DB_KP);
-        DB_DRIVEBASE = new DifferentialDrive(DB_LEFT, DB_RIGHT);
+        DB_DRIVEBASE = new DifferentialDrive(FRONT_LEFT, FRONT_RIGHT);
         DB_KINEMATICS = new DifferentialDriveKinematics(HardwareInformation.DIMENSIONS[0]);
         DB_WHEEL_SPEEDS = new DifferentialDriveWheelSpeeds(0.0, 0.0);
         DB_PERIODIC_TIME = new Timer();
@@ -103,8 +103,8 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void arcadeDrive(Double Velocity, Double Rotation)
     {
-        DB_DRIVEBASE.arcadeDrive((DB_Mode) ? (-Velocity * 0.20) : (-Velocity * DB_Speed_Coefficient),
-                (DB_Mode) ? (-Rotation * 0.20) : (-Rotation));
+        DB_DRIVEBASE.arcadeDrive((DB_Mode) ? (Velocity * 0.20) : (Velocity * DB_Speed_Coefficient),
+                (DB_Mode) ? (Rotation * 0.20) : (Rotation * DB_Speed_Coefficient));
         /*
          * DB_DRIVEBASE.arcadeDrive((DB_Mode)? (-Velocity * 0.20):
          * (-DB_M_PID.calculate(Functions.norm(DB_KINEMATICS.toChassisSpeeds(

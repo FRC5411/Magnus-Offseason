@@ -30,19 +30,17 @@ public class RobotContainer {
   private Boolean M_Control_Mode = false;
   // ---------------[Robot Miscellaneous]----------------//
   private final DriveCommand M_AutonomousCommand;
-  private final Integer M_Controller_Port = DriverProfile.DRIVER_CONTROLLER_PORT;
   private final Class<?> M_Driver = DriverProfile.DRIVER_PROFILE;
 
   // ------------------[Constructors]--------------------//
   /** Constructor */
   public RobotContainer() {
-    // Controller(S)
-    M_Controller = new CommandXboxController(M_Controller_Port);
+    // Contro    M_Controller = new CommandXboxController(M_Controller_Port);
 
     // Defining Subsystems and Commands
     M_Drive = new DriveSubsystem(M_Driver);
-    M_Drive.setDefaultCommand(new DriveCommand(() -> M_Controller.getRawAxis(1),
-        () -> Math.atan(M_Controller.getRawAxis(4) / M_Controller.getRawAxis(1)), M_Driver, M_Drive));
+    M_Drive.setDefaultCommand(new DriveCommand(() -> M_Controller.getLeftY(),
+        () -> M_Controller.getRightX(), M_Driver, M_Drive));
     M_AutonomousCommand = new DriveCommand(() -> 0.0, () -> 0.5, M_Driver, M_Drive);
     M_Intake = new IntakeSubsystem();
     M_Climb = new ClimbSubsystem();
@@ -119,19 +117,19 @@ public class RobotContainer {
     }
     try {
       Trigger_Intake.onTrue(Commands.run(M_Intake::setIntakeOutwards, M_Intake));
-      Trigger_Intake.onFalse(Commands.run(M_Intake::setIntakeInwards,M_Intake));
+      Trigger_Intake.onFalse(Commands.run(M_Intake::setIntakeStop,M_Intake));
     } catch (NullPointerException exception) {
       Commands
           .print("TRIGGER_INTAKE default failed; check Constants.DriverProfile.Default, could not find default");
     }
     try {
       Trigger_Left_Arm_Movement.whileTrue(new ClimbCommand(
-          (Trigger_Left_Arm_Movement.and(Trigger_Additive).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
+          (Trigger_Left_Arm_Movement.and(M_Controller.povUp()).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
               : (Climb.Values.C_ARM_DOWN),
-          ((Trigger_Left_Arm_Movement.and(Trigger_Subtractive).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
+          ((Trigger_Left_Arm_Movement.and(M_Controller.povDown()).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
               : (Climb.Values.C_WIN_OUT)),
           (M_Control_Mode) ? (2) : (0), (!M_Control_Mode), M_Climb));
-      Trigger_Left_Arm_Movement.onFalse(new ClimbCommand(0.0, 0.0, 0, true, M_Climb));
+      Trigger_Left_Arm_Movement.onFalse(new ClimbCommand(0.0, 0.0, 2, false, M_Climb));
     } catch (NullPointerException exception) {
       Commands
           .print("TRIGGER_L_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
@@ -139,12 +137,12 @@ public class RobotContainer {
 
     try {
       Trigger_Right_Arm_Movement.whileTrue(new ClimbCommand(
-          (Trigger_Right_Arm_Movement.and(Trigger_Additive).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
+          (Trigger_Right_Arm_Movement.and(M_Controller.povUp()).getAsBoolean()) ? (Climb.Values.C_ARM_UP)
               : (Climb.Values.C_ARM_DOWN),
-          ((Trigger_Right_Arm_Movement.and(Trigger_Subtractive).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
+          ((Trigger_Right_Arm_Movement.and(M_Controller.povDown()).getAsBoolean()) ? (Climb.Values.C_WIN_IN)
               : (Climb.Values.C_WIN_OUT)),
           (M_Control_Mode) ? (2) : (1), (!M_Control_Mode), M_Climb));
-      Trigger_Right_Arm_Movement.onFalse(new ClimbCommand(0.0, 0.0, 1, true, M_Climb));
+      Trigger_Right_Arm_Movement.onFalse(new ClimbCommand(0.0, 0.0, 2, false, M_Climb));
     } catch (NullPointerException exception) {
       Commands
           .print("TRIGGER_R_ARM_CONTROL default failed; check Constants.DriverProfile.Default, could not find default");
